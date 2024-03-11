@@ -1,0 +1,41 @@
+<ExactWaterUsageSpinner>:
+    opacity: 0
+    sync_height: True
+    text_autoupdate: True
+    size_hint: 1, None
+    pos_hint: {'center_x': 0.5}
+    height: '25sp'
+    text: "Type..."
+    values: []
+    id: exactWaterUsageSpinner
+    on_text: root.selected_usage(exactWaterUsageSpinner.text)
+
+<AddWaterUsagePopup>:
+    size_hint: 0.75, 0.5
+    auto_dismiss: True
+    background: "img/1x1.png"
+    title_color: (0,0,0,1)
+
+    title: "Add Water Usage"
+    title_align: "center"
+    BoxLayout:
+        orientation: "vertical"
+        spacing: '15sp'
+        padding: '5sp'
+        id: b_layout
+        CustomSpinner:
+            id: waterUsageTypeSpinner
+            #text_autoupdate: True
+            sync_height: True
+            size_hint: 1, None
+            pos_hint: {'center_x': 0.5}
+            height: '25sp'
+            text: "Type of usage"
+            font_size: "15sp"
+            values: ["Appliances", "Kitchen/Consumption", "Bathroom", "Outdoor Use", "Other"]
+            on_text: root.usage_selected(waterUsageTypeSpinner.text)
+
+
+        Label:
+            id: positioningLabel
+            text: ""

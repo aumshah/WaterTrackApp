@@ -1,0 +1,29 @@
+<InfoPage>:
+    name : "InfoPage"
+    WhiteBoxLayout:
+        Label:
+            text: "Info"
+            text_size : self.width, None
+            size_hint: 1, None
+            height: self.texture_size[1]
+            halign: "left"
+            valign: "top"
+            font_size: "20dp"
+            bold: True
+            color: 0,0,0,1
+        ScrollView:
+            BoxLayout:
+                size_hint_y: None
+                orientation: "vertical"
+                Label:
+                    text: "Credits"
+                    color: 0,0,0,1
+
+                Label:
+                    #multiline:True
+                    size_hint_y: None
+                    text_size: self.width, None
+                    text: "Info Icon: https://www.flaticon.com/free-icons/info\nBar Graph/Statistics icon: https://www.flaticon.com/free-icons/graph\nHome Icon: https://www.flaticon.com/free-icons/home\nTimer Icon: https://www.flaticon.com/free-icons/timer\nSettings Icon:https://www.flaticon.com/free-icons/settings\nPause Icon: https://www.flaticon.com/free-icons/pause\nRestart Icon: https://www.flaticon.com/free-icons/reset"
+                    color: 0,0,0,1
+        BottomBar:
+            ctrl1:1

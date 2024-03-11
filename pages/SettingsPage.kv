@@ -1,0 +1,20 @@
+<SettingsPage>:
+    name : "SettingsPage"
+    ScrollView:
+        WhiteBoxLayout:
+            spacing: "15dp"
+            Label:
+                text: "Settings"
+                text_size : self.width, None
+                size_hint: 1, None
+                height: self.texture_size[1]
+                halign: "left"
+                valign: "top"
+                font_size: "20dp"
+                bold: True
+                color: 0,0,0,1
+            Label:
+                text: "Units"
+                color: 0,0,0,1
+            BottomBar:
+                ctrl5:1

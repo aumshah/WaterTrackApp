@@ -1,0 +1,178 @@
+<BreakDownLabel>:
+    size_hint: 1, None
+    text: ""
+    font_size: "16sp"
+    text_size: self.size
+    halign: "left"
+    valign: "center"
+    color: 0,0,0,1
+    background_color: (0,0,0,0)
+    bg_color: 225/255, 248/255, 1, 1
+    background_normal: ''
+    back_color:  self.bg_color
+    border_radius: [25]
+    canvas.before:
+        Color:
+            rgba: self.bg_color
+        RoundedRectangle:
+            size: self.size
+            pos: self.pos
+            radius: [(25),(25),(25),(25)]
+<CustomSpinner@Spinner>:
+    background_color: (0,0,0,0)
+    bg_color : (0.96,0.96,0.96,1)
+    color: (0,0,0,1)
+    background_normal: ''
+    back_color:  self.bg_color if self.state == "normal" else (0.75, 0.75, 0.75, 1)
+    border_radius: [25]
+    canvas.before:
+        Color:
+            rgba: self.bg_color if self.state == "normal" else (0.75, 0.75, 0.75, 1)
+        RoundedRectangle:
+            size: self.size
+            pos: self.pos
+            radius: [(25),(25),(25),(25)]
+        Color:
+            rgba: (0.94,0.94,0.94,1)
+        Line:
+            width: 2
+            rounded_rectangle: self.x, self.y, self.width, self.height, 25
+<SpinnerOption>:
+    background_color: (0,0,0,0)
+    bg_color : (0.96,0.96,0.96,1)
+    color: (0,0,0,1)
+    background_normal: ''
+    back_color:  self.bg_color if self.state == "normal" else (0.75, 0.75, 0.75, 1)
+    border_radius: [25]
+    font_size: "14sp"
+    canvas.before:
+        Color:
+            rgba: self.bg_color if self.state == "normal" else (0.75, 0.75, 0.75, 1)
+        RoundedRectangle:
+            size: self.size
+            pos: self.pos
+            radius: [(25),(25),(25),(25)]#[(self.height/2),(self.height/2),(self.height/2),(self.height/2)]
+        Color:
+            rgba: (0.94,0.94,0.94,1)
+        Line:
+            width: 2
+            rounded_rectangle: self.x, self.y, self.width, self.height, 25
+<SmoothButton@Button>:
+    background_color: (0,0,0,0)
+    bg_color : (0,0,0,1)
+    background_normal: ''
+    back_color:  self.bg_color if self.state == "normal" else (0, 0, 0, 0.25)
+    border_radius: [25]
+    canvas.before:
+        Color:
+            rgba: self.bg_color if self.state == "normal" else (0, 0, 0, 0.25)
+        RoundedRectangle:
+            size: self.size
+            pos: self.pos
+            radius: [(25),(25),(25),(25)]
+
+<LabelBorder@Label>:
+    canvas.before:
+        Color:
+            rgba: 0, 0, 0, 1
+        Line:
+            width: 2
+            rectangle: self.x, self.y, self.width, self.height
+
+<BottomBar@Screen>:
+    ctrl1:0
+    ctrl2:0
+    ctrl3:0
+    ctrl4:0
+    ctrl5:0
+    BoxLayout:
+        orientation: "horizontal"
+        ImageButton:
+            size_hint: 1, None
+            height: self.texture_size[1]
+            name: "Info"
+            source: "img/InfoIcon.png"
+            on_release:
+                app.root.current = "InfoPage"
+                #root.manager.transition.direction = "left"
+            canvas.before:
+                Color:
+                    rgba: 0, 0, 0, 0.1*self.parent.parent.ctrl1
+                BoxShadow:
+                    pos: self.pos
+                    size: self.size
+                    spread_radius: 0, 15
+                    border_radius: 50, 50, 50, 50
+        ImageButton:
+            size_hint: 1, None
+            height: self.texture_size[1]
+            name: "Stats"
+            source: "img/StatsIcon.png"
+            on_release:
+                app.root.current = "StatsPage"
+                #root.manager.transition.direction = "left"
+            canvas.before:
+                Color:
+                    rgba: 0, 0, 0, 0.1*self.parent.parent.ctrl2
+                BoxShadow:
+                    pos: self.pos
+                    size: self.size
+                    spread_radius: 0, 15
+                    border_radius: 50, 50, 50, 50
+        ImageButton:
+            size_hint: 1, None
+            height: self.texture_size[1]
+            name: "Home"
+            source: "img/HomeIcon.png"
+            on_release:
+                app.root.current = "HomePage"
+                #root.manager.transition.direction = "left"
+            canvas.before:
+                Color:
+                    rgba: 0, 0, 0, 0.1*self.parent.parent.ctrl3
+                BoxShadow:
+                    pos: self.pos
+                    size: self.size
+                    spread_radius: 0, 15
+                    border_radius: 50, 50, 50, 50
+        ImageButton:
+            size_hint: 1, None
+            height: self.texture_size[1]
+            name: "Timer"
+            source: "img/TimerIcon.png"
+            on_release:
+                app.root.current = "TimerPage"
+                #root.manager.transition.direction = "left"
+            canvas.before:
+                Color:
+                    rgba: 0, 0, 0, 0.1*self.parent.parent.ctrl4
+                BoxShadow:
+                    pos: self.pos
+                    size: self.size
+                    spread_radius: 0, 15
+                    border_radius: 50, 50, 50, 50
+        ImageButton:
+            size_hint: 1, None
+            height: self.texture_size[1]
+            name: "Settings"
+            source: "img/SettingsIcon.png"
+            on_release:
+                app.root.current = "SettingsPage"
+                #root.manager.transition.direction = "left"
+            canvas.before:
+                Color:
+                    rgba: 0, 0, 0, 0.1*self.parent.parent.ctrl5
+                BoxShadow:
+                    pos: self.pos
+                    size: self.size
+                    spread_radius: 0, 15
+                    border_radius: 50, 50, 50, 50
+<WhiteBoxLayout@BoxLayout>:
+    padding: sp(15),sp(40),sp(15),sp(10)
+    orientation: "vertical"
+    canvas.before:
+        Color:
+            rgba: 1, 1, 1, 1
+        Rectangle:
+            pos: self.pos
+            size: self.size

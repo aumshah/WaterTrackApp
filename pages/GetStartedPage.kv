@@ -1,0 +1,34 @@
+<GetStartedPage>:
+    name : "GetStartedPage"
+    BoxLayout:
+        padding: dp(10),dp(50),dp(10),dp(50)
+        orientation: "vertical"
+        canvas.before:
+            Color:
+                rgba: 1, 1, 1, 1
+            Rectangle:
+                pos: self.pos
+                size: self.size
+        Image:
+            source: "img/PowerOfWaterLogo.png"
+        Label
+            text: "Welcome to\nWaterTrack"
+            text_size: self.size
+            halign: "center"
+            valign: "center"
+            font_size: "35dp"
+            color: 0,0,0,1
+        SmoothButton:
+            text: "Get Started"
+            size_hint : 0.7, 0.25
+            pos_hint: {"center_x" : 0.5}
+            on_release:
+                app.root.current = "HomePage"
+                root.manager.transition.direction = "left"
+        Label:
+            color: 0,0,0,1
+            font_size: "10dp"
+            text_size: self.size
+            halign: "center"
+            size_hint : 1,0.5
+            text: "By continuing, you agree to the Power of Clean Water\nTerms of Service and Privacy Policy"

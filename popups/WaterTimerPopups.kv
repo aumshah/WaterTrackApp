@@ -1,0 +1,68 @@
+<WaterTimerPopup>:
+    #border_radius: [25]
+    #canvas.after:
+    #    Color:
+    #        rgba: 0, 1, 1, 1
+    #    RoundedRectangle:
+    #        pos: self.pos
+    #        size: self.size
+    #        radius: [(25),(25),(25),(25)]
+    size_hint: 0.75, 0.5
+    auto_dismiss: False
+    background: "img/1x1.png"
+    title_color: (0,0,0,1)
+
+
+    title: "Water Usage Summary"
+    BoxLayout:
+        orientation: "vertical"
+        padding: 10,10,10,10
+        Label:
+            color: 0,0,0,1
+            id: waterUsageInfoTime
+            text: ""
+            size_hint_y: None
+            text_size: self.width, None
+            height: self.texture_size[1]
+
+        Label:
+            color: 0,0,0,1
+            id: waterUsageInfoVolume
+            text: ""
+            size_hint_y: None
+            text_size: self.width, None
+            height: self.texture_size[1]
+        BoxLayout:
+            spacing: 35
+            size_hint: 0.85, None
+            pos_hint: {"center_x" : 0.5}
+            SmoothButton:
+                border_radius: [10]
+                size_hint: 1, 0.6
+                bg_color: (0,0,0,1)
+                color: (1,1,1,1)
+                text: "Back"
+                on_release: root.dismiss()
+            SmoothButton:
+                border_radius: [10]
+                size_hint: 1, 0.6
+                bg_color: (0,0,0,1)
+                color: (1,1,1,1)
+                text: "Add it!"
+                halign: "center"
+                on_release: root.add()
+
+<WaterTimerAlert>:
+    size_hint: 0.75, 0.25
+    background: "img/1x1.png"
+    title_color: (0,0,0,1)
+
+    title: "Please select water usage!"
+    SmoothButton:
+        border_radius: [10]
+        size_hint: 1, 0.6
+        bg_color: (0,0,0,1)
+        color: (1,1,1,1)
+        text: "Okay"
+        halign: "center"
+        on_release: root.dismiss()

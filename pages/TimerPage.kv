@@ -1,0 +1,57 @@
+<TimerPage>:
+    name : "TimerPage"
+    WhiteBoxLayout:
+        spacing: 10
+        Label:
+            halign: "center"
+            id: timer
+            text: "00:00"
+            font_size: "72sp"
+            color: 0,0,0,1
+            #height: self.texture_size[1]
+            size_hint: 1,2.75
+        CustomSpinner:
+            sync_height: True
+            size_hint: 0.6, 0.25
+            pos_hint : {"center_x": 0.5}
+            spacing: 5
+            id: waterUsageSpinner
+            text: "Select Usage"
+            values: ["Shower", "Washing Dishes", "Hose", "Sprinkler"]
+            on_text: self.parent.parent.timer_dropdown(waterUsageSpinner.text)
+
+        SmoothButton:
+            bg_color: 225/255, 248/255, 1, 1
+            size_hint: 1, None
+            id: timerToggleButton
+            text: "Start Water Timer"
+            bold: True
+            font_size: "18sp"
+            color: 0,0,0,1
+            on_release: self.parent.parent.toggle_timer()
+        BoxLayout:
+            size_hint: 1, 0.3
+            pos_hint: {"center": 0}
+            ImageButton:
+                color: 0.5, 0.5, 0.5, 0.5
+                size_hint: 0.25, 0.7
+                #height: self.texture_size[1]
+                id: pauseToggleButton
+                source: "img/PauseIcon.png"
+                fit_mode: "contain"
+                on_press: root.pause_press()
+                on_release: root.pause_timer()
+            ImageButton:
+                color: 0.5, 0.5, 0.5, 0.5
+                size_hint: 0.25, 0.7
+                #height: self.texture_size[1]
+                id: restartToggleButton
+                source: "img/RestartIcon.png"
+                fit_mode: "contain"
+                on_press: root.restart_press()
+                on_release: root.restart_timer()
+
+
+        BottomBar:
+            ctrl4: 1
+

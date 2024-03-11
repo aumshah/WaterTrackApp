@@ -1,0 +1,103 @@
+<HomePage>:
+    name : "HomePage"
+    WhiteBoxLayout:
+        spacing: "15sp"
+        Label:
+            id: greetingText
+            text: ""
+            text_size : self.width, None
+            size_hint: 1, None
+            height: self.texture_size[1]
+            halign: "left"
+            valign: "top"
+            font_size: "20sp"
+            bold: True
+            color: 0,0,0,1
+        BoxLayout:
+            height: self.minimum_height
+            padding: 15
+            size_hint : 1, None
+            orientation: "vertical"
+            canvas.before:
+                Color:
+                    rgba: 244/255, 251/255, 1, 1
+                RoundedRectangle:
+                    pos: self.pos
+                    size: self.size
+                    radius: [(25,25),(25,25),(25,25),(25,25)]
+            Label:
+                pos_hint: {"top":0}
+                text_size : self.size
+                halign: "center"
+                text: "Water Usage Today"
+                font_size: "18sp"
+                color: 0,0,0,1
+                height: self.texture_size[1]
+                size_hint: 1,None
+
+            Label:
+                id: totalWaterUsage
+                text: "" #str(app.store['totalWaterUsage']['gallons']) + " gal."
+                font_size: "50sp"
+                bold: True
+                color: 0,0,0,1
+                height: self.texture_size[1]
+                size_hint: 1, None
+        BoxLayout:
+            height: self.minimum_height
+            padding: sp(15),sp(10),sp(15),sp(10)
+            spacing: "10sp"
+            size_hint: 1, None
+            orientation: "vertical"
+            canvas.before:
+                Color:
+                    rgba: 244/255, 251/255, 1, 1
+                RoundedRectangle:
+                    pos: self.pos
+                    size: self.size
+                    radius: [(25,25),(25,25),(25,25),(25,25)]
+            Label:
+                text: "Breakdown"
+                font_size: "18sp"
+                color: 0,0,0,1
+                size_hint: 1, None
+                height: self.texture_size[1]
+                text_size: self.size
+            #BoxLayout:
+            #    id: breakdownLabels
+            #    orientation: "vertical"
+            #    size_hint: 1, self.size[1]
+            #    BreakDownLabel:
+            #        text: "hello"
+            SmoothButton:
+                bg_color: 225/255, 248/255, 1, 1
+                size_hint: 1, None
+                text: "Add Water Usage"
+                font_size: "16sp"
+                color: 0,0,0,1
+                on_release: root.add_usage_click()
+
+        BoxLayout:
+            height: self.minimum_height
+            padding: sp(15),sp(10),sp(15),sp(10)
+            spacing: "10sp"
+            size_hint: 1, None
+            orientation: "vertical"
+            canvas.before:
+                Color:
+                    rgba: 244/255, 251/255, 1, 1
+                RoundedRectangle:
+                    pos: self.pos
+                    size: self.size
+                    radius: [(25,25),(25,25),(25,25),(25,25)]
+            Label:
+                text: "Tips to reduce usage"
+                font_size: "18sp"
+                color: 0,0,0,1
+                size_hint: 1, None
+                height: self.texture_size[1]
+                text_size: self.size
+                #halign: "left"
+        BottomBar:
+            ctrl3:1
+
