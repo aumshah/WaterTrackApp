@@ -12,7 +12,7 @@ pip install -r requirements.txt
 
 ## App Screenshots
 
-<img alt="Welcome Page" src="https://i.ibb.co/YNdjm8B/Welcome-Screen-Shot.png" width=100px> <img alt="Home Page" src="https://i.ibb.co/6DqbNfY/Home-Page-Screen-Shot.png" width=100px> <img alt="Add Water Usage Home Page" src="https://i.ibb.co/6FQLByS/Add-Water-Usage-Home-Page-Screen-Shot.png" width=100px> <img alt="Stats Page" src="https://i.ibb.co/7Nq6N7N/Stats-Page-Screen-Shot.png" width=100px> <img alt="Timer Page" src="https://i.ibb.co/QQcbKjT/Timer-Page-Screen-Shot.png" width=100px>
+<img alt="Welcome Page" src="https://i.ibb.co/YNdjm8B/Welcome-Screen-Shot.png" width=140px> <img alt="Home Page" src="https://i.ibb.co/6DqbNfY/Home-Page-Screen-Shot.png" width=140px> <img alt="Add Water Usage Home Page" src="https://i.ibb.co/6FQLByS/Add-Water-Usage-Home-Page-Screen-Shot.png" width=140px> <img alt="Stats Page" src="https://i.ibb.co/7Nq6N7N/Stats-Page-Screen-Shot.png" width=140px> <img alt="Timer Page" src="https://i.ibb.co/QQcbKjT/Timer-Page-Screen-Shot.png" width=140px>
 
 ## Contributing
 
