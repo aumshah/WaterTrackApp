@@ -1,5 +1,113 @@
 <StatsPage>:
     name : "StatsPage"
     WhiteBoxLayout:
+        id: layout
+        #height: self.minimum_height
+        #size_hint_y: None
+        spacing: "12.5sp"
+        orientation: "vertical"
+        #pos_hint: {"top":0}
+        #canvas.before:
+        #    Color:
+        #        rgba: 0, 0, 0, 1
+        #    Line:
+        #        width: 2
+        #        rectangle: self.x, self.y, self.width, self.height
+        Label:
+            text: "Stats"
+            text_size : self.width, None
+            size_hint: 1, None
+            height: self.texture_size[1]
+            halign: "left"
+            valign: "top"
+            font_size: "20sp"
+            bold: True
+            color: 0,0,0,1
+        BoxLayout:
+            id: graph
+            height: self.minimum_height
+            size_hint_y: 10
+            height: "200sp"
+            padding: sp(5),sp(10),sp(5),sp(10)
+            orientation: "vertical"
+            canvas.before:
+            #    Color:
+            #        rgba: 0, 0, 0, 1
+            #    Line:
+            #        width: 2
+            #        rectangle: self.x, self.y, self.width, self.height
+                Color:
+                    rgba: 244/255, 251/255, 1, 1
+                RoundedRectangle:
+                    pos: self.pos
+                    size: self.size
+                    radius: [(25,25),(25,25),(25,25),(25,25)]
+            Label:
+                text: "This Week's Water Usage"
+                halign: "center"
+                bold: True
+                font_size: "18sp"
+                color: 0,0,0,1
+                size_hint: 1, None
+                height: self.texture_size[1]
+                text_size: self.size
+            Image:
+                size_hint_y: 0.5
+                source: "img/StatsLegend.png"
+
+        BoxLayout:
+            height: self.minimum_height
+            padding: sp(15),sp(10),sp(15),sp(10)
+            spacing: "10sp"
+            size_hint: 1, None
+            orientation: "vertical"
+            canvas.before:
+                Color:
+                    rgba: 244/255, 251/255, 1, 1
+                RoundedRectangle:
+                    pos: self.pos
+                    size: self.size
+                    radius: [(25,25),(25,25),(25,25),(25,25)]
+            Label:
+                text: "Summary"
+                bold: True
+                font_size: "18sp"
+                color: 0,0,0,1
+                size_hint: 1, None
+                height: self.texture_size[1]
+                text_size: self.size
+            Label:
+                id: avg
+                text: "Average water usage"
+                text_size : self.width, None
+                size_hint: 1, None
+                height: self.texture_size[1]
+                halign: "left"
+                valign: "top"
+                font_size: "14sp"
+                bold: True
+                color: 0,0,0,1
+            Label:
+                id: max
+                text: "Max water usage"
+                text_size : self.width, None
+                size_hint: 1, None
+                height: self.texture_size[1]
+                halign: "left"
+                valign: "top"
+                font_size: "14sp"
+                bold: True
+                color: 0,0,0,1
+            Label:
+                id: min
+                text: "Min water usage"
+                text_size : self.width, None
+                size_hint: 1, None
+                height: self.texture_size[1]
+                halign: "left"
+                valign: "top"
+                font_size: "14sp"
+                bold: True
+                color: 0,0,0,1
         BottomBar:
             ctrl2:1
