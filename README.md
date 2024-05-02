@@ -1,6 +1,6 @@
 # Water Track
 
-Water Track is a Kivy App made for the [Power of Clean Water](https://www.powerofwater.org/) that aims to assist users in realizing the amount of water they are using. This is done by making it easy to enter daily usage and track water usage while doing day to day activities. 
+Water Track is a Kivy App made for the [Power of Clean Water 501(c)(3)](https://www.powerofwater.org/) that aims to assist users in realizing the amount of water they =e using. This is done by making it easy to enter daily usage and track water usage while doing day to day activities. 
 
 ## Installation
 
@@ -21,5 +21,5 @@ Pull requests are welcome. For major changes, please open an issue first to disc
 Please make sure to update tests as appropriate.
 
 ## License
-
+The "Power of Clean Water" icon is owned by the [Power of Clean Water](https://www.powerofwater.org/)
 [Apache License 2.0](https://choosealicense.com/licenses/apache-2.0/)
