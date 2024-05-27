@@ -118,18 +118,18 @@ class AddWaterUsagePopup(Popup):
 
     def usage_selected(self, usage):
         self.ids.exactWaterUsageSpinner.opacity = 1
-        if usage == "Appliances":
+        self.ids.exactWaterUsageSpinner.values = ["Dishwasher", "Washing Machine","Drinking Water", "Hand Washing Dishes", "Ice", "Coffee/Tea", "Washing Hands","Cooking", "Shower/Bath", "Toilet", "Washing Hands", "Washing Face", "Brushing Teeth", "Hose", "Sprinkler", "Car Wash", "Dog Bath", "Other"]
+
+        """if usage == "Appliances":
             self.ids.exactWaterUsageSpinner.values = ["Dishwasher", "Washing Machine"]
         elif usage == "Kitchen/Consumption":
-            self.ids.exactWaterUsageSpinner.values = ["Drinking Water", "Hand Washing Dishes", "Ice", "Coffee/Tea", "Washing Hands",
-                                                      "Cooking"]
+            self.ids.exactWaterUsageSpinner.values = ["Drinking Water", "Hand Washing Dishes", "Ice", "Coffee/Tea", "Washing Hands", "Cooking"]
         elif usage == "Bathroom":
-            self.ids.exactWaterUsageSpinner.values = ["Shower/Bath", "Toilet", "Washing Hands", "Washing Face",
-                                                      "Brushing Teeth"]
+            self.ids.exactWaterUsageSpinner.values = ["Shower/Bath", "Toilet", "Washing Hands", "Washing Face", "Brushing Teeth"]
         elif usage == "Outdoor Use":
             self.ids.exactWaterUsageSpinner.values = ["Hose", "Sprinkler", "Car Wash", "Dog Bath"]
         elif usage == "Other":
-            self.ids.exactWaterUsageSpinner.values = ["Other"]
+            self.ids.exactWaterUsageSpinner.values = ["Other"]"""
         return
 
     def specific_usage_selected(self, usage):
