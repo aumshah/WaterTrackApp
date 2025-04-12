@@ -14,7 +14,7 @@
             WhiteBoxLayout:
                 height: self.minimum_height
                 size_hint_y: None
-                spacing: "15sp"
+                spacing: "15dp"
                 orientation: "vertical"
                 Label:
                     text: "Info"
@@ -23,13 +23,14 @@
                     height: self.texture_size[1]
                     halign: "left"
                     valign: "top"
-                    font_size: "20dp"
+                    font_size: "30sp"
                     bold: True
                     color: 0,0,0,1
 
                 SmoothButton:
                     bg_color: 225/255, 248/255, 1, 1
                     size_hint: 1, None
+                    height: "70sp"
                     text: "Donate Now!"
                     font_size: "20sp"
                     color: 0,0,0,1
@@ -38,8 +39,8 @@
                 BoxLayout:
                     height: self.minimum_height
                     size_hint_y: None
-                    padding: "15sp"
-                    spacing: "10sp"
+                    padding: "15dp"
+                    spacing: "10dp"
                     size_hint: 1, None
                     orientation: "vertical"
                     canvas.before:
@@ -52,7 +53,7 @@
                     Label:
                         text: "About The Power of Clean Water"
                         bold: True
-                        font_size: "13sp"
+                        font_size: "20sp"
                         color: 0,0,0,1
                         size_hint: 1, None
                         height: self.texture_size[1]
@@ -60,7 +61,7 @@
                     Label:
                         text: "The Power of Clean Water connects young people to the global water crisis and empowers them to help. By providing the tools and the water projects in need of funding, we provide a clear path to making a difference in the world."
                         size_hint_y: None
-                        font_size: "12sp"
+                        font_size: "12dp"
                         color: 0,0,0,1
                         text_size: self.width, None
                         height: self.texture_size[1]
@@ -68,8 +69,8 @@
                 BoxLayout:
                     height: self.minimum_height
                     size_hint_y: None
-                    padding: "15sp"
-                    spacing: "10sp"
+                    padding: "15dp"
+                    spacing: "10dp"
                     size_hint: 1, None
                     orientation: "vertical"
                     canvas.before:
@@ -82,7 +83,7 @@
                     Label:
                         text: "About The WaterTrack App"
                         bold: True
-                        font_size: "13sp"
+                        font_size: "20sp"
                         color: 0,0,0,1
                         size_hint: 1, None
                         height: self.texture_size[1]
@@ -90,15 +91,15 @@
                     Label:
                         text: "The WaterTrack App aims to assist users in realizing the amount of water they are using. This is done by making it easy to enter daily usage and track water usage while doing day to day activities"
                         size_hint_y: None
-                        font_size: "12sp"
+                        font_size: "12dp"
                         color: 0,0,0,1
                         text_size: self.width, None
                         height: self.texture_size[1]
                 BoxLayout:
                     height: self.minimum_height
                     size_hint_y: None
-                    padding: "15sp"
-                    spacing: "10sp"
+                    padding: "15dp"
+                    spacing: "10dp"
                     size_hint: 1, None
                     orientation: "vertical"
                     canvas.before:
@@ -111,7 +112,7 @@
                     Label:
                         text: "Credits"
                         bold: True
-                        font_size: "18sp"
+                        font_size: "20sp"
                         color: 0,0,0,1
                         size_hint: 1, None
                         height: self.texture_size[1]
@@ -119,13 +120,13 @@
                     Label:
                         #multiline:True
                         size_hint_y: None
-                        text: "Info Icon: https://www.flaticon.com/free-icons/info\nBar Graph/Statistics icon: https://www.flaticon.com/free-icons/graph\nHome Icon: https://www.flaticon.com/free-icons/home\nTimer Icon: https://www.flaticon.com/free-icons/timer\nSettings Icon:https://www.flaticon.com/free-icons/settings\nPause Icon: https://www.flaticon.com/free-icons/pause\nRestart Icon: https://www.flaticon.com/free-icons/reset"
-                        font_size: "10sp"
+                        text: "Info Icon: https://www.flaticon.com/free-icons/info\nBar Graph/Statistics icon: https://www.flaticon.com/free-icons/increase\nHome Icon: https://www.flaticon.com/free-icons/home\nTimer Icon: https://www.flaticon.com/free-icons/timer\nSettings Icon:https://www.flaticon.com/free-icons/settings\nPause Icon: https://www.flaticon.com/free-icons/pause\nRestart Icon: https://www.flaticon.com/free-icons/reset"
+                        font_size: "10dp"
                         color: 0,0,0,1
                         text_size: self.width, None
                         height: self.texture_size[1]
                 Label:
-                    font_size: "14sp"
+                    font_size: "18sp"
                     text: "Created by Aum Shah\n\n"
                     bold: True
                     size_hint_y: None

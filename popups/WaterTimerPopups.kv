@@ -1,22 +1,13 @@
 <WaterTimerPopup>:
-    #border_radius: [25]
-    #canvas.after:
-    #    Color:
-    #        rgba: 0, 1, 1, 1
-    #    RoundedRectangle:
-    #        pos: self.pos
-    #        size: self.size
-    #        radius: [(25),(25),(25),(25)]
-    size_hint: 0.75, 0.5
+    size_hint: 0.75, 0.25
     auto_dismiss: False
     background: "img/1x1.png"
     title_color: (0,0,0,1)
-
-
     title: "Water Usage Summary"
     BoxLayout:
         orientation: "vertical"
         padding: 10,10,10,10
+        size_hint_y: None
         Label:
             color: 0,0,0,1
             id: waterUsageInfoTime
@@ -38,14 +29,16 @@
             pos_hint: {"center_x" : 0.5}
             SmoothButton:
                 border_radius: [10]
-                size_hint: 1, 0.6
+                size_hint: 1, None
+                height: "25sp"
                 bg_color: (0,0,0,1)
                 color: (1,1,1,1)
                 text: "Back"
                 on_release: root.dismiss()
             SmoothButton:
                 border_radius: [10]
-                size_hint: 1, 0.6
+                size_hint: 1, None
+                height: "25sp"
                 bg_color: (0,0,0,1)
                 color: (1,1,1,1)
                 text: "Add it!"

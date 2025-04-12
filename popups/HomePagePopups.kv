@@ -17,14 +17,16 @@
     title: "Please enter a number!"
     SmoothButton:
         border_radius: [10]
-        size_hint: 1, 0.6
+        size_hint: 1, None
+        width: "100sp"
         bg_color: (0,0,0,1)
         color: (1,1,1,1)
         text: "Okay"
         halign: "center"
         on_release: root.dismiss()
 <AddWaterUsagePopup>:
-    size_hint: 0.75, 0.5
+    size_hint: 0.75, None
+    height: "300sp"
     auto_dismiss: True
     background: "img/1x1.png"
     title_color: (0,0,0,1)
@@ -33,47 +35,40 @@
     title_align: "center"
     BoxLayout:
         orientation: "vertical"
-        spacing: '20sp'
+        spacing: '10sp'
         padding: '5sp'
         id: b_layout
-        #CustomSpinner:
-        #    id: waterUsageTypeSpinner
-        #    #text_autoupdate: True
-        #    sync_height: True
-        #    size_hint: 1, None
-        #    pos_hint: {'center_x': 0.5}
-        #    height: '25sp'
-        #    text: "Type of usage"
-        #    font_size: "15sp"
-        #    values: ["Appliances", "Kitchen/Consumption", "Bathroom", "Outdoor Use", "Other"]
-        #    on_text: root.usage_selected(waterUsageTypeSpinner.text)
         CustomSpinner:
-            opacity: 1
+            id: waterUsageTypeSpinner
+            #text_autoupdate: True
+            sync_height: True
+            size_hint: 1, None
+            pos_hint: {'center_x': 0.5}
             height: '25sp'
+            text: "Type of usage"
+            font_size: "15sp"
+            values: ["Appliances", "Kitchen/Consumption", "Bathroom", "Outdoor Use", "Other"]
+            on_text: root.usage_selected(waterUsageTypeSpinner.text)
+        CustomSpinner:
+            opacity: 0
             sync_height: True
             #text_autoupdate: True
             size_hint: 1, None
-            pos_hint: {'center_x': 0.5, 'center_y':0}
+            pos_hint: {'center_x': 0.5}
+            height: '25sp'
             text: "Type..."
-            values: ["Dishwasher", "Washing Machine","Drinking Water", "Hand Washing Dishes", "Ice", "Coffee/Tea", "Washing Hands","Cooking", "Shower/Bath", "Toilet", "Washing Hands", "Washing Face", "Brushing Teeth", "Hose", "Sprinkler", "Car Wash", "Dog Bath", "Other"]
+            values: []
             id: exactWaterUsageSpinner
             on_text: root.specific_usage_selected(exactWaterUsageSpinner.text)
-
         Label:
             opacity:0
             id: enterUsageLabel
-            #size_hint_y: None
-            size_hint: 1, None
-            text: ""
-            halign: "center"
+            size_hint_y: None
+            text: "How many seconds did you wash your hands for?"
             font_size: "14sp"
             color: 0,0,0,1
             text_size: self.width, None
             height: self.texture_size[1]
-        #Label:
-        #    text: ""
-        #    text_size: self.width, None
-        #    height: self.texture_size[1]
         TextInput:
             height: self.minimum_height
             halign: "center"
@@ -84,8 +79,10 @@
             background_color: 1,1,1,1
             background_normal: "img/1x1.png"
             background_active: "img/1x1.png"
+            multiline: False
             cursor_color: 0,0,0,1
             canvas.before:
+
                 Color:
                     rgba: (0.94,0.94,0.94,1)
                 Line:
@@ -113,5 +110,3 @@
                 text: "Add it!"
                 halign: "center"
                 on_release: root.add(); app.root.current = "BlankPage"; app.root.current = "HomePage"; root.dismiss();
-            
-

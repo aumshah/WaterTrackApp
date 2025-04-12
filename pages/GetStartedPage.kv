@@ -1,7 +1,7 @@
 <GetStartedPage>:
     name : "GetStartedPage"
     BoxLayout:
-        padding: dp(10),dp(50),dp(10),dp(50)
+        padding: dp(10),dp(80),dp(10),dp(50)
         orientation: "vertical"
         canvas.before:
             Color:
@@ -12,7 +12,7 @@
         Image:
             source: "img/PowerOfWaterLogo.png"
         Label
-            text: "Welcome to\nWaterTrack"
+            text: "Welcome to\nWater Tracker"
             text_size: self.size
             halign: "center"
             valign: "center"
@@ -20,6 +20,7 @@
             color: 0,0,0,1
         SmoothButton:
             text: "Get Started"
+            font_size: "20dp"
             size_hint : 0.7, 0.25
             pos_hint: {"center_x" : 0.5}
             on_release:

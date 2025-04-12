@@ -2,21 +2,23 @@
     size_hint: 0.75, 0.25
     background: "img/1x1.png"
     title_color: (0,0,0,1)
-
+    title_size: "18sp"
     title: "Please enter water usage!"
     SmoothButton:
         border_radius: [10]
-        size_hint: 1, 0.6
+        size_hint: 0.6, None
         bg_color: (0,0,0,1)
         color: (1,1,1,1)
         text: "Okay"
+        font_size: "20sp"
+        height: "40sp"
         halign: "center"
         on_release: root.dismiss()
 <BreakDownLabel>:
     u_type: ""
     u_volume: 0
     orientation: "horizontal"
-    padding: "15sp"
+    padding: "15dp"
     size_hint: 1, None
     color: 0,0,0,1
     background_color: (0,0,0,0)
@@ -24,6 +26,7 @@
     background_normal: ''
     back_color:  self.bg_color
     border_radius: [25]
+    height: "70sp"
     canvas.before:
         Color:
             rgba: self.bg_color
@@ -35,7 +38,7 @@
         size_hint_y: None
         size_hint_x: 1.76
         text: root.u_type
-        font_size: "16sp"
+        font_size: "16dp"
         bold: True
         color: 0,0,0,1
         valign: "center"
@@ -75,7 +78,7 @@
     background_normal: ''
     back_color:  self.bg_color if self.state == "normal" else (0.75, 0.75, 0.75, 1)
     border_radius: [25]
-    font_size: "14sp"
+    font_size: "14dp"
     canvas.before:
         Color:
             rgba: self.bg_color if self.state == "normal" else (0.75, 0.75, 0.75, 1)
@@ -118,8 +121,9 @@
     ctrl5:0
     BoxLayout:
         orientation: "horizontal"
-        height: "40sp"
+        height: "80dp"
         size_hint: 1, None
+        padding: dp(5), dp(15), dp(5), dp(20)
         canvas.before:
             Color:
                 rgba: 1, 1, 1, 1
@@ -128,7 +132,7 @@
                 size: self.size
         ImageButton:
             size_hint: 1, None
-            height: "30sp"
+            height: "45dp"
             name: "Info"
             source: "img/PowerOfWaterIcon.png"
             on_release:
@@ -144,7 +148,7 @@
                     border_radius: 45, 45, 45, 45
         ImageButton:
             size_hint: 1, None
-            height: "30sp"
+            height: "45dp"
             name: "Stats"
             source: "img/StatsIcon.png"
             on_release:
@@ -160,7 +164,7 @@
                     border_radius: 45, 45, 45, 45
         ImageButton:
             size_hint: 1, None
-            height: "30sp"
+            height: "45dp"
             name: "Home"
             source: "img/HomeIcon.png"
             on_release:
@@ -176,7 +180,7 @@
                     border_radius: 45, 45, 45, 45
         ImageButton:
             size_hint: 1, None
-            height: "30sp"
+            height: "45dp"
             name: "Timer"
             source: "img/TimerIcon.png"
             on_release:
@@ -192,7 +196,7 @@
                     border_radius: 45, 45, 45, 45
         #ImageButton:
         #    size_hint: 1, None
-        #    height: "30sp"
+        #    height: "30dp"
         #    name: "Settings"
         #    source: "img/SettingsIcon.png"
         #    on_release:
@@ -207,7 +211,7 @@
         #            spread_radius: 0, 15
         #            border_radius: 45, 45, 45, 45
 <WhiteBoxLayout@BoxLayout>:
-    padding: sp(15),sp(40),sp(15),sp(10)
+    padding: dp(25),dp(60),dp(25),dp(10)
     orientation: "vertical"
     canvas.before:
         Color:

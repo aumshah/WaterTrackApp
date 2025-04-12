@@ -14,7 +14,7 @@
             WhiteBoxLayout:
                 height: self.minimum_height
                 size_hint_y: None
-                spacing: "15sp"
+                spacing: "15dp"
                 orientation: "vertical"
                 Label:
                     id: greetingText
@@ -24,7 +24,7 @@
                     height: self.texture_size[1]
                     halign: "left"
                     valign: "top"
-                    font_size: "20sp"
+                    font_size: "30sp"
                     bold: True
                     color: 0,0,0,1
                 BoxLayout:
@@ -44,7 +44,7 @@
                         text_size : self.size
                         halign: "center"
                         text: "Water Usage Today"
-                        font_size: "18sp"
+                        font_size: "18dp"
                         color: 0,0,0,1
                         height: self.texture_size[1]
                         size_hint: 1,None
@@ -52,7 +52,7 @@
                     Label:
                         id: totalWaterUsage
                         text: "" #str(app.store['totalWaterUsage']['gallons']) + " gal."
-                        font_size: "48sp"
+                        font_size: "48dp"
                         bold: True
                         color: 0,0,0,1
                         height: self.texture_size[1]
@@ -60,7 +60,7 @@
                 BoxLayout:
                     height: self.minimum_height
                     padding: sp(15),sp(10),sp(15),sp(10)
-                    spacing: "10sp"
+                    spacing: "10dp"
                     size_hint: 1, None
                     orientation: "vertical"
                     canvas.before:
@@ -73,7 +73,7 @@
                     Label:
                         text: "Breakdown"
                         bold: True
-                        font_size: "18sp"
+                        font_size: "20sp"
                         color: 0,0,0,1
                         size_hint: 1, None
                         height: self.texture_size[1]
@@ -82,13 +82,14 @@
                         bg_color: 225/255, 248/255, 1, 1
                         size_hint: 1, None
                         text: "Add Water Usage"
-                        font_size: "16sp"
+                        font_size: "20sp"
+                        height: "70sp"
                         color: 0,0,0,1
                         bold: True
                         on_release: root.add_usage_click()
                     BoxLayout:
                         id: breakdownLabels
-                        spacing: "10sp"
+                        spacing: "10dp"
                         orientation: "vertical"
                         #size_hint: 1, self.size[1]
                         height: self.minimum_height
@@ -100,7 +101,7 @@
                     height: self.minimum_height
                     size_hint_y: None
                     padding: sp(15),sp(10),sp(15),sp(10)
-                    spacing: "10sp"
+                    spacing: "10dp"
                     size_hint: 1, None
                     orientation: "vertical"
                     canvas.before:
@@ -113,7 +114,7 @@
                     Label:
                         text: "Tips to reduce usage"
                         bold: True
-                        font_size: "18sp"
+                        font_size: "20sp"
                         color: 0,0,0,1
                         size_hint: 1, None
                         height: self.texture_size[1]
@@ -128,7 +129,7 @@
                         height: self.texture_size[1]
                 Label:
                     font_size: "14sp"
-                    text: "\n"
+                    text: "\n\n"
                     size_hint_y: None
                     height: self.texture_size[1]
         BottomBar:

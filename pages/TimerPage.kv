@@ -1,20 +1,21 @@
 <TimerPage>:
     name : "TimerPage"
     WhiteBoxLayout:
-        spacing: 10
+        spacing: 20
         Label:
             halign: "center"
             id: timer
             text: "00:00"
-            font_size: "72sp"
+            font_size: "72dp"
             color: 0,0,0,1
             #height: self.texture_size[1]
             size_hint: 1,2.75
         CustomSpinner:
             sync_height: True
-            size_hint: 0.6, 0.25
+            size_hint: 0.8, None
+            height: "50dp"
             pos_hint : {"center_x": 0.5}
-            spacing: 5
+            spacing: "5dp"
             id: waterUsageSpinner
             text: "Select Usage"
             values: ["Shower", "Washing Dishes", "Hose", "Sprinkler"] #"Fill Up Tub"
@@ -22,11 +23,13 @@
 
         SmoothButton:
             bg_color: 225/255, 248/255, 1, 1
-            size_hint: 1, None
+            size_hint: 0.8, None
+            height: "70dp"
+            pos_hint : {"center_x": 0.5}
             id: timerToggleButton
             text: "Start Water Timer"
             bold: True
-            font_size: "18sp"
+            font_size: "18dp"
             color: 0,0,0,1
             on_release: self.parent.parent.toggle_timer()
         BoxLayout:

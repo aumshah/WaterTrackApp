@@ -1,12 +1,15 @@
-import logging
 import webbrowser
 
+import kivy.core.window
 from kivy.config import Config
 from kivy.uix.boxlayout import BoxLayout
 
-# Config.set('graphics', 'resizable', '0')
-Config.set('graphics', 'width', '260')
-Config.set('graphics', 'height', '560')
+#Config.set('graphics', 'resizable', '0')
+#Config.set('graphics', 'width', "393")
+#Config.set('graphics', 'height', "852")
+#Config.set('graphics', 'width', "1179")
+#Config.set('graphics', 'height', "2556")
+Config.set('graphics', 'always_on_top', 1)
 
 from kivy.app import App
 from kivy.lang import Builder
@@ -16,17 +19,26 @@ from kivy.uix.behaviors import ButtonBehavior
 from kivy.uix.image import Image
 from kivy.uix.popup import Popup
 from kivy.clock import Clock
+from kivy import Logger
 from datetime import datetime, timedelta
 from kivy.uix.spinner import Spinner
-from kivy.uix.widget import Widget
-from kivy.uix.label import Label
 from kivy.uix.settings import Settings
 from kivy.config import ConfigParser
-import numpy as np
+import time
+import os
+# venv: site-packages
+import numpy
 import matplotlib.pyplot as plt
-from kivy_garden.matplotlib.backend_kivyagg import FigureCanvasKivyAgg
+import matplotlib
 
-store = JsonStore("storage.json")
+matplotlib.use('Agg')
+plt.set_loglevel("warning")
+
+print("Welcome to Water Track!")
+
+store = JsonStore("startingStorage.json")
+user_data_dir_path = ""
+base_json_str = '{"userData": {"units": "gallons"}, "dailyBreakdown": {}, "waterConfiguration": {"showerRate": 2, "faucetRate": 1.5, "hoseRate": 5, "sprinklerRate": 4, "tubRate": 2.5}}'
 
 Builder.load_file("pages/CustomClasses.kv")
 Builder.load_file('pages/GetStartedPage.kv')
@@ -39,7 +51,104 @@ Builder.load_file("pages/BlankPage.kv")
 Builder.load_file("popups/WaterTimerPopups.kv")
 Builder.load_file("popups/HomePagePopups.kv")
 
-logging.getLogger('matplotlib.font_manager').disabled = True
+#logging.getLogger('matplotlib.font_manager').disabled = True
+
+# Statistic Graph Update Function
+def update_statistics_image():
+    values_xaxis = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
+    days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
+    kitchenConsumption = []
+    appliances = []
+    outdoorUse = []
+    bathroom = []
+    other = []
+    # current_date = datetime.now().strftime("%m/%d/%Y")
+    current_date = datetime.now()
+    idx = (current_date.weekday() + 1) % 7
+
+    sun = current_date - timedelta(idx)
+    for i in range(7):
+        date = sun.strftime("%m/%d/%Y")
+        # values_xaxis.append(date)
+        try:
+            kitchenConsumption.append(store["dailyBreakdown"][date]["Kitchen/Consumption"])
+        except:
+            kitchenConsumption.append(0)
+
+        try:
+            appliances.append(store["dailyBreakdown"][date]["Appliances"])
+        except:
+            appliances.append(0)
+
+        try:
+            outdoorUse.append(store["dailyBreakdown"][date]["Outdoor Use"])
+        except:
+            outdoorUse.append(0)
+
+        try:
+            bathroom.append(store["dailyBreakdown"][date]["Bathroom"])
+        except:
+            bathroom.append(0)
+
+        try:
+            other.append(store["dailyBreakdown"][date]["Other"])
+        except:
+            other.append(0)
+        sun = sun + timedelta(days=1)
+    print(values_xaxis)
+    print(kitchenConsumption)
+    print(appliances)
+    print(outdoorUse)
+    print(bathroom)
+    print(other)
+
+    plt.clf()
+    plt.close()
+
+    matplotlib.use('Agg')
+    plt.figure(facecolor=(244 / 255, 251 / 255, 1))
+    plt.rcParams.update({'figure.autolayout': True});
+    plt.rcParams.update({'font.size': 20, 'font.weight': 'bold'})
+    plt.xlabel('Day', weight='bold')
+    print("Error after here:")
+
+    plt.bar(values_xaxis, kitchenConsumption, color='lightsteelblue', width=0.75);print(112)
+    plt.bar(values_xaxis, appliances, bottom=kitchenConsumption, color='cornflowerblue', width=0.75);print(113)
+    plt.bar(values_xaxis, outdoorUse, bottom=[kitchenConsumption[i] + appliances[i] for i in range(7)],color='royalblue', width=0.75);print(114)
+    plt.bar(values_xaxis, bathroom, bottom=[kitchenConsumption[i] + appliances[i] + outdoorUse[i] for i in range(7)], color='mediumblue', width=0.75); print(115)
+    plt.bar(values_xaxis, other, bottom=[kitchenConsumption[i] + appliances[i] + outdoorUse[i] + bathroom[i] for i in range(7)], color='navy', width=0.75); print(116)
+    plt.bar(values_xaxis, [(kitchenConsumption[i] + appliances[i] + outdoorUse[i] + bathroom[i] + other[i]) * 0.05 for i in range(7)], bottom=[kitchenConsumption[i] + appliances[i] + outdoorUse[i] + bathroom[i] for i in range(7)], color='white', width=0.75); print(117)
+    print("Plot made!"); print(118)
+
+    plt.savefig(os.path.join(user_data_dir_path, "StatsImage.png")); print(128)
+    print("Successfully Saved Image!"); print(129)
+    plt.close();
+    plt.clf()
+    """
+    f = plt.figure(facecolor=(244 / 255, 251 / 255, 1)); print(105)
+    plt.rcParams.update({'figure.autolayout': True}); print(106)
+    ax = f.add_subplot(111); print(107)
+    #plt.ylabel('Gallons')
+    plt.rcParams.update({'font.size': 20, 'font.weight': 'bold'}); print(109)
+    matplotlib.use('Agg')
+    ax.set_xlabel('Day', weight='bold'); print(110)
+
+    ax.bar(values_xaxis, [1,1,1,1,1,1,1]); print(111)
+    ax.bar(values_xaxis, kitchenConsumption, color='lightsteelblue', width=0.75); print(112)
+    ax.bar(values_xaxis, appliances, bottom=kitchenConsumption, color='cornflowerblue', width=0.75); print(113)
+    ax.bar(values_xaxis, outdoorUse, bottom=[kitchenConsumption[i]+appliances[i] for i in range(7)], color='royalblue', width=0.75); print(114)
+    ax.bar(values_xaxis, bathroom, bottom=[kitchenConsumption[i]+appliances[i]+outdoorUse[i] for i in range(7)], color='mediumblue', width=0.75); print(115)
+    ax.bar(values_xaxis, other, bottom=[kitchenConsumption[i]+appliances[i]+outdoorUse[i]+bathroom[i] for i in range(7)], color='navy', width=0.75); print(116)
+    ax.bar(values_xaxis, [(kitchenConsumption[i]+appliances[i]+outdoorUse[i]+bathroom[i]+other[i])*0.05 for i in range(7)], bottom=[kitchenConsumption[i] + appliances[i] + outdoorUse[i] + bathroom[i] for i in range(7)], color='white', width=0.75); print(117)
+    
+    print("Plot made!"); print(126)
+
+    f.savefig(os.path.join(user_data_dir_path,"StatsImage.png")); print(128)
+    print("Successfully Saved Image!"); print(129)
+    plt.close(f); print(126)
+    f.clf()
+    """
+
 
 # Popup classes
 class WaterTimerPopup(Popup):
@@ -102,6 +211,7 @@ class WaterTimerPopup(Popup):
             d2.update(**{usage_type: round(WaterTimerPopup.volume, 1)})
         d1.update(**{current_date: d2})
         store.put("dailyBreakdown", **d1)
+        update_statistics_image()
         self.dismiss()
 
 
@@ -118,18 +228,18 @@ class AddWaterUsagePopup(Popup):
 
     def usage_selected(self, usage):
         self.ids.exactWaterUsageSpinner.opacity = 1
-        self.ids.exactWaterUsageSpinner.values = ["Dishwasher", "Washing Machine","Drinking Water", "Hand Washing Dishes", "Ice", "Coffee/Tea", "Washing Hands","Cooking", "Shower/Bath", "Toilet", "Washing Hands", "Washing Face", "Brushing Teeth", "Hose", "Sprinkler", "Car Wash", "Dog Bath", "Other"]
-
-        """if usage == "Appliances":
+        if usage == "Appliances":
             self.ids.exactWaterUsageSpinner.values = ["Dishwasher", "Washing Machine"]
         elif usage == "Kitchen/Consumption":
-            self.ids.exactWaterUsageSpinner.values = ["Drinking Water", "Hand Washing Dishes", "Ice", "Coffee/Tea", "Washing Hands", "Cooking"]
+            self.ids.exactWaterUsageSpinner.values = ["Drinking Water", "Hand Washing Dishes", "Ice", "Coffee/Tea", "Washing Hands",
+                                                      "Cooking"]
         elif usage == "Bathroom":
-            self.ids.exactWaterUsageSpinner.values = ["Shower/Bath", "Toilet", "Washing Hands", "Washing Face", "Brushing Teeth"]
+            self.ids.exactWaterUsageSpinner.values = ["Shower/Bath", "Toilet", "Washing Hands", "Washing Face",
+                                                      "Brushing Teeth"]
         elif usage == "Outdoor Use":
             self.ids.exactWaterUsageSpinner.values = ["Hose", "Sprinkler", "Car Wash", "Dog Bath"]
         elif usage == "Other":
-            self.ids.exactWaterUsageSpinner.values = ["Other"]"""
+            self.ids.exactWaterUsageSpinner.values = ["Other"]
         return
 
     def specific_usage_selected(self, usage):
@@ -279,7 +389,10 @@ class AddWaterUsagePopup(Popup):
         pass
 # Classes for different pages in the app + WindowManager
 class GetStartedPage(Screen):
-    pass
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+    def on_pre_enter(self, *args):
+        print("Pre enter Get Started Page")
 
 
 class HomePage(Screen):
@@ -299,6 +412,8 @@ class HomePage(Screen):
         self.ids.totalWaterUsage.text = str(round(sum(store["dailyBreakdown"][current_date].values()), 1)) + ' gal.'
 
     def on_pre_enter(self, *args):
+        print("Pre enter home page")
+        update_statistics_image()
         self.update()
 
     def update(self):
@@ -337,21 +452,29 @@ class InfoPage(Screen):
 class StatsPage(Screen):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        values_xaxis = ["Sun", "Mon", "Tue", "Wed", "Thur", "Fri", "Sat"]
+        update_statistics_image()
+
+    def on_pre_enter(self, *args):
+        update_statistics_image()
+        self.ids.StatsImage.source = os.path.join(user_data_dir_path,"StatsImage.png")
+        self.ids.StatsImage.reload()
+        self.ids.StatsImage.height =self.parent.parent.width * 0.75
+        self.ids.StatsImage.width = self.parent.parent.width
+        self.ids.Key.height = self.parent.parent.width * 0.6 * 0.53
+        self.ids.Key.width = self.parent.parent.width * 0.6
         days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
         kitchenConsumption = []
         appliances = []
         outdoorUse = []
         bathroom = []
         other = []
-        #current_date = datetime.now().strftime("%m/%d/%Y")
         current_date = datetime.now()
         idx = (current_date.weekday() + 1) % 7
 
         sun = current_date - timedelta(idx)
         for i in range(7):
             date = sun.strftime("%m/%d/%Y")
-            #values_xaxis.append(date)
+            # values_xaxis.append(date)
             try:
                 kitchenConsumption.append(store["dailyBreakdown"][date]["Kitchen/Consumption"])
             except:
@@ -377,26 +500,6 @@ class StatsPage(Screen):
             except:
                 other.append(0)
             sun = sun + timedelta(days=1)
-        print(values_xaxis)
-        print(kitchenConsumption)
-        print(appliances)
-        print(outdoorUse)
-        print(bathroom)
-        print(other)
-        plt.figure(facecolor=(244 / 255, 251 / 255, 1))
-        #plt.ylabel('Gallons')
-        plt.xlabel('Day')
-        plt.bar(values_xaxis, kitchenConsumption, color='lightsteelblue', width=0.75)
-        plt.bar(values_xaxis, appliances, bottom=kitchenConsumption, color='cornflowerblue', width=0.75)
-        plt.bar(values_xaxis, outdoorUse, bottom=[kitchenConsumption[i]+appliances[i] for i in range(7)], color='royalblue', width=0.75)
-        plt.bar(values_xaxis, bathroom, bottom=[kitchenConsumption[i]+appliances[i]+outdoorUse[i] for i in range(7)], color='mediumblue', width=0.75)
-        plt.bar(values_xaxis, other, bottom=[kitchenConsumption[i]+appliances[i]+outdoorUse[i]+bathroom[i] for i in range(7)], color='navy', width=0.75)
-
-        #plt.title("This Week's Water Usage")
-        #plt.legend(["Kitchen/Consumption", "Appliances", "Outdoor Use", "Bathroom", "Other"])
-        plt.rcParams.update({'font.size': 1})
-        #plt.show()
-        self.ids.graph.add_widget(FigureCanvasKivyAgg(plt.gcf()), index=0)
 
         sum_water_week = [kitchenConsumption[i]+appliances[i]+outdoorUse[i]+bathroom[i]+other[i] for i in range(7)]
         avg_water_usage = round(sum(sum_water_week)/7, 1)
@@ -411,13 +514,12 @@ class StatsPage(Screen):
 
 class TimerPage(Screen):
     timerOn = False
-    min = 0
-    sec = 0
+    total_time = 0
     waterUsageType = ""
-
+    last_time = 0
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        Clock.schedule_interval(self.update_label, 1)
+        Clock.schedule_interval(self.update_timer_text, 0.05)
 
     def timer_dropdown(self, entered_text):
         self.waterUsageType = entered_text
@@ -429,9 +531,9 @@ class TimerPage(Screen):
         self.ids.pauseToggleButton.color = (0.5, 0.5, 0.5, 0.5)
 
     def restart_timer(self, *args):
-        self.sec = 0
-        self.min = 0
+        self.total_time = 0
         self.ids.restartToggleButton.color = (0.5, 0.5, 0.5, 1)
+        self.ids.pauseToggleButton.color = (0, 0, 0, 1)
         if self.timerOn:
             self.update_timer_text()
             self.timerOn = False
@@ -444,38 +546,44 @@ class TimerPage(Screen):
 
     def pause_timer(self, *args):
         if self.timerOn:
-            self.ids.pauseToggleButton.color = (0.5, 0.5, 0.5, 1)
+            self.ids.pauseToggleButton.color = (0.5, 0.5, 0.5, 0.5)
             self.timerOn = False
+            self.total_time += time.time() - self.last_time
         else:
+            self.ids.pauseToggleButton.color = (0, 0, 0, 1)
             self.timerOn = True
+            self.last_time = time.time()
         return
 
-    def update_label(self, *args):
-        if self.timerOn:
-            self.sec += 1
-            self.update_timer_text()
+    #def update_label(self, *args):
+    #    if self.timerOn:
+    #        self.sec += 1
+    #        self.update_timer_text()
 
-    def update_timer_text(self):
+    def update_timer_text(self, *args):
         text = ""
-        if self.sec == 60:
-            self.min += 1
-            self.sec = 0
+        if self.timerOn:
+            self.total_time += time.time() - self.last_time
+            self.last_time = time.time()
 
-        if self.min == 0:
+        num_sec = round(self.total_time)%60
+        num_min = round(self.total_time)//60
+
+        if num_min == 0:
             text += "00"
-        elif self.min < 10:
-            text += "0" + str(self.min)
+        elif num_min < 10:
+            text += "0" + str(num_min)
         else:
-            text += str(self.min)
+            text += str(num_min)
 
         text += ":"
 
-        if self.sec == 0:
+        if num_sec == 0:
             text += "00"
-        elif self.sec < 10:
-            text += "0" + str(self.sec)
+        elif num_sec < 10:
+            text += "0" + str(num_sec)
         else:
-            text += str(self.sec)
+            text += str(num_sec)
 
         self.ids.timer.text = text
 
@@ -483,18 +591,18 @@ class TimerPage(Screen):
         if self.waterUsageType == "" or self.waterUsageType == "Select Usage":
             SelectUsageAlert().open()
             return
-        if self.timerOn or self.min != 0 or self.sec != 0:
+        if self.timerOn or self.total_time != 0:
             self.timerOn = False
             self.ids.timerToggleButton.text = str("Start Water Timer")
             self.ids.pauseToggleButton.color = (0.5, 0.5, 0.5, 0.5)
             self.ids.restartToggleButton.color = (0.5, 0.5, 0.5, 0.5)
-            WaterTimerPopup().pass_data(self.min, self.sec, self.waterUsageType)
+            WaterTimerPopup().pass_data(round(self.total_time//60), round(self.total_time%60), self.waterUsageType)
             WaterTimerPopup().open()
-            self.min = 0
-            self.sec = 0
+            self.total_time = 0
             self.update_timer_text()
         else:
             self.timerOn = True
+            self.last_time = time.time()
             self.ids.timerToggleButton.text = str("Stop Water Timer")
             self.ids.pauseToggleButton.color = (0, 0, 0, 1)
             self.ids.restartToggleButton.color = (0, 0, 0, 1)
@@ -535,7 +643,23 @@ class BreakDownLabel(BoxLayout):
 
 class WaterTrackApp(App):
     def build(self):
+        global user_data_dir_path, store, base_json_str
+
         self.sm = ScreenManager()
+        user_data_dir_path = getattr(self, "user_data_dir")
+        print(user_data_dir_path)
+        store = JsonStore(os.path.join(user_data_dir_path, "storage.json"))
+
+        try:
+            if os.stat(os.path.join(user_data_dir_path, "storage.json")).st_size == 0:
+                with open(os.path.join(user_data_dir_path, "storage.json"), "w") as f:
+                    f.write(base_json_str)
+        except Exception as e:
+            print(e)
+            with open(os.path.join(user_data_dir_path, "storage.json"), "w") as f:
+                f.write(base_json_str)
+                print("Created file!")
+        store = JsonStore(os.path.join(user_data_dir_path, "storage.json"))
         if len(store["dailyBreakdown"].keys()) == 0:
             self.sm.add_widget(GetStartedPage(name="GetStarted"))
 
@@ -557,4 +681,6 @@ class WaterTrackApp(App):
 
 
 if __name__ == '__main__':
+    Logger.info("Started the app!!")
+    print(kivy.core.window.Window.dpi)
     WaterTrackApp().run()
