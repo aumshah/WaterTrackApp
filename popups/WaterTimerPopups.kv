@@ -31,17 +31,32 @@
                 border_radius: [10]
                 size_hint: 1, None
                 height: "25sp"
-                bg_color: (0,0,0,1)
-                color: (1,1,1,1)
+                bg_color: (0.94,0.94,0.94,1)
+                color: (0,0,0,1)
                 text: "Back"
                 on_release: root.dismiss()
             SmoothButton:
                 border_radius: [10]
                 size_hint: 1, None
                 height: "25sp"
-                bg_color: (0,0,0,1)
-                color: (1,1,1,1)
+                color: (0,0,0,1)
+                bg_color: (0.94,0.94,0.94,1)
                 text: "Add it!"
                 halign: "center"
                 on_release: root.add()
-
+<SelectUsageAlert>:
+    size_hint: 0.75, 0.20
+    background: "img/1x1.png"
+    title_color: (0,0,0,1)
+    title_size: "18sp"
+    title: "Please enter water usage!"
+    SmoothButton:
+        border_radius: [10]
+        size_hint: 0.6, None
+        bg_color: (0.94,0.94,0.94,1)
+        color: (0,0,0,1)
+        text: "Okay"
+        font_size: "20sp"
+        height: "40sp"
+        halign: "center"
+        on_release: root.dismiss()

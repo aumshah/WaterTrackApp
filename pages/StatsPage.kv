@@ -17,6 +17,7 @@
                 size_hint_y: None
                 spacing: "12.5dp"
                 orientation: "vertical"
+                padding: dp(25),dp(60),dp(25),dp(100)
                 #pos_hint: {"top":0}
                 #canvas.before:
                 #    Color:
@@ -127,5 +128,17 @@
                         font_size: "14dp"
                         bold: True
                         color: 0,0,0,1
+                SmoothButton:
+                    bg_color: 225/255, 248/255, 1, 1
+                    size_hint: 1, None
+                    text: "Reset Water Usage"
+                    font_size: "20sp"
+                    height: "70sp"
+                    color: 0,0,0,1
+                    bold: True
+                    on_release: root.reset_all()
+                Label:
+                    text: "\n\n\n\n\n\n\n\n"
+                    font_size: "20sp"
         BottomBar:
             ctrl2:1

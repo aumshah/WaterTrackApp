@@ -10,18 +10,19 @@
     id: exactWaterUsageSpinner
     on_text: root.selected_usage(exactWaterUsageSpinner.text)
 <EnterANumberAlert>:
-    size_hint: 0.75, 0.25
+    size_hint: 0.75, 0.20
     background: "img/1x1.png"
     title_color: (0,0,0,1)
-
+    title_size: "18sp"
     title: "Please enter a number!"
     SmoothButton:
         border_radius: [10]
-        size_hint: 1, None
-        width: "100sp"
-        bg_color: (0,0,0,1)
-        color: (1,1,1,1)
+        size_hint: 0.6, None
+        bg_color: (0.94,0.94,0.94,1)
+        color: (0,0,0,1)
         text: "Okay"
+        font_size: "20sp"
+        height: "40sp"
         halign: "center"
         on_release: root.dismiss()
 <AddWaterUsagePopup>:
@@ -30,7 +31,7 @@
     auto_dismiss: True
     background: "img/1x1.png"
     title_color: (0,0,0,1)
-
+    title_size: "18sp"
     title: "Add Water Usage"
     title_align: "center"
     BoxLayout:
@@ -110,3 +111,29 @@
                 text: "Add it!"
                 halign: "center"
                 on_release: root.add(); app.root.current = "BlankPage"; app.root.current = "HomePage"; root.dismiss();
+<DeleteWaterUsagePopup>:
+    size_hint: 0.75, 0.25
+    background: "img/1x1.png"
+    title_color: (0,0,0,1)
+    title: "Are you sure?"
+    title_size: "18sp"
+    BoxLayout:
+        spacing: 35
+        size_hint: 0.85, None
+        pos_hint: {"center_x" : 0.5}
+        height: "50sp"
+        SmoothButton:
+            border_radius: [10]
+            size_hint: 1, 1
+            bg_color: (0.94,0.94,0.94,1)
+            color: (0,0,0,1)
+            text: "Back"
+            on_release: root.dismiss()
+        SmoothButton:
+            border_radius: [10]
+            size_hint: 1, 1
+            bg_color: (0.94,0.94,0.94,1)
+            color: (0,0,0,1)
+            text: "Delete"
+            halign: "center"
+            on_release: root.delete(); app.root.current = "BlankPage"; app.root.current = "HomePage"; root.dismiss();

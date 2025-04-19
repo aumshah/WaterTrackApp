@@ -1,16 +1,7 @@
 import webbrowser
-
 import kivy.core.window
 from kivy.config import Config
 from kivy.uix.boxlayout import BoxLayout
-
-#Config.set('graphics', 'resizable', '0')
-#Config.set('graphics', 'width', "393")
-#Config.set('graphics', 'height', "852")
-#Config.set('graphics', 'width', "1179")
-#Config.set('graphics', 'height', "2556")
-Config.set('graphics', 'always_on_top', 1)
-
 from kivy.app import App
 from kivy.lang import Builder
 from kivy.uix.screenmanager import ScreenManager, Screen
@@ -44,6 +35,7 @@ Builder.load_file("pages/CustomClasses.kv")
 Builder.load_file('pages/GetStartedPage.kv')
 Builder.load_file('pages/HomePage.kv')
 Builder.load_file("pages/InfoPage.kv")
+Builder.load_file("popups/StatsPagePopups.kv")
 Builder.load_file("pages/StatsPage.kv")
 Builder.load_file("pages/TimerPage.kv")
 Builder.load_file("pages/SettingsPage.kv")
@@ -51,7 +43,6 @@ Builder.load_file("pages/BlankPage.kv")
 Builder.load_file("popups/WaterTimerPopups.kv")
 Builder.load_file("popups/HomePagePopups.kv")
 
-#logging.getLogger('matplotlib.font_manager').disabled = True
 
 # Statistic Graph Update Function
 def update_statistics_image():
@@ -62,7 +53,12 @@ def update_statistics_image():
     outdoorUse = []
     bathroom = []
     other = []
-    # current_date = datetime.now().strftime("%m/%d/%Y")
+    current_date = datetime.now().strftime("%m/%d/%Y")
+    if current_date not in store["dailyBreakdown"].keys():
+        # This is how you store data in the dictionary
+        d1 = store["dailyBreakdown"]
+        d1.update(**{current_date: {}})
+        store.put("dailyBreakdown", **d1)
     current_date = datetime.now()
     idx = (current_date.weekday() + 1) % 7
 
@@ -95,12 +91,12 @@ def update_statistics_image():
         except:
             other.append(0)
         sun = sun + timedelta(days=1)
-    print(values_xaxis)
-    print(kitchenConsumption)
-    print(appliances)
-    print(outdoorUse)
-    print(bathroom)
-    print(other)
+    #print(values_xaxis)
+    #print(kitchenConsumption)
+    #print(appliances)
+    #print(outdoorUse)
+    #print(bathroom)
+    #print(other)
 
     plt.clf()
     plt.close()
@@ -110,18 +106,18 @@ def update_statistics_image():
     plt.rcParams.update({'figure.autolayout': True});
     plt.rcParams.update({'font.size': 20, 'font.weight': 'bold'})
     plt.xlabel('Day', weight='bold')
-    print("Error after here:")
+    #print("Error after here:")
 
-    plt.bar(values_xaxis, kitchenConsumption, color='lightsteelblue', width=0.75);print(112)
-    plt.bar(values_xaxis, appliances, bottom=kitchenConsumption, color='cornflowerblue', width=0.75);print(113)
-    plt.bar(values_xaxis, outdoorUse, bottom=[kitchenConsumption[i] + appliances[i] for i in range(7)],color='royalblue', width=0.75);print(114)
-    plt.bar(values_xaxis, bathroom, bottom=[kitchenConsumption[i] + appliances[i] + outdoorUse[i] for i in range(7)], color='mediumblue', width=0.75); print(115)
-    plt.bar(values_xaxis, other, bottom=[kitchenConsumption[i] + appliances[i] + outdoorUse[i] + bathroom[i] for i in range(7)], color='navy', width=0.75); print(116)
-    plt.bar(values_xaxis, [(kitchenConsumption[i] + appliances[i] + outdoorUse[i] + bathroom[i] + other[i]) * 0.05 for i in range(7)], bottom=[kitchenConsumption[i] + appliances[i] + outdoorUse[i] + bathroom[i] for i in range(7)], color='white', width=0.75); print(117)
-    print("Plot made!"); print(118)
+    plt.bar(values_xaxis, kitchenConsumption, color='lightsteelblue', width=0.75);#print(112)
+    plt.bar(values_xaxis, appliances, bottom=kitchenConsumption, color='cornflowerblue', width=0.75);#print(113)
+    plt.bar(values_xaxis, outdoorUse, bottom=[kitchenConsumption[i] + appliances[i] for i in range(7)],color='royalblue', width=0.75);#print(114)
+    plt.bar(values_xaxis, bathroom, bottom=[kitchenConsumption[i] + appliances[i] + outdoorUse[i] for i in range(7)], color='mediumblue', width=0.75); #print(115)
+    plt.bar(values_xaxis, other, bottom=[kitchenConsumption[i] + appliances[i] + outdoorUse[i] + bathroom[i] for i in range(7)], color='navy', width=0.75); #print(116)
+    plt.bar(values_xaxis, [(kitchenConsumption[i] + appliances[i] + outdoorUse[i] + bathroom[i] + other[i]) * 0.05 for i in range(7)], bottom=[kitchenConsumption[i] + appliances[i] + outdoorUse[i] + bathroom[i] for i in range(7)], color='white', width=0.75); #print(117)
+    #print("Plot made!"); #print(118)
 
-    plt.savefig(os.path.join(user_data_dir_path, "StatsImage.png")); print(128)
-    print("Successfully Saved Image!"); print(129)
+    plt.savefig(os.path.join(user_data_dir_path, "StatsImage.png")); #print(128)
+    #print("Successfully Saved Image!"); print(129)
     plt.close();
     plt.clf()
     """
@@ -148,7 +144,6 @@ def update_statistics_image():
     plt.close(f); print(126)
     f.clf()
     """
-
 
 # Popup classes
 class WaterTimerPopup(Popup):
@@ -203,6 +198,11 @@ class WaterTimerPopup(Popup):
         #if usage_type == "Fill Up Tub":
         #    usage_type = "Outdoor Use"
         current_date = datetime.now().strftime("%m/%d/%Y")
+        if current_date not in store["dailyBreakdown"].keys():
+            # This is how you store data in the dictionary
+            d1 = store["dailyBreakdown"]
+            d1.update(**{current_date: {}})
+            store.put("dailyBreakdown", **d1)
         d1 = store["dailyBreakdown"]
         d2 = d1[current_date]
         if usage_type in d2.keys():
@@ -213,14 +213,10 @@ class WaterTimerPopup(Popup):
         store.put("dailyBreakdown", **d1)
         update_statistics_image()
         self.dismiss()
-
-
 class SelectUsageAlert(Popup):
     pass
-
 class EnterANumberAlert(Popup):
     pass
-
 class AddWaterUsagePopup(Popup):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -267,6 +263,9 @@ class AddWaterUsagePopup(Popup):
             self.ids.enterUsageLabel.text = "How many cups of water did you use?"
             pass
         elif usage == "Shower/Bath":
+            self.ids.enterUsageLabel.text = "How long was the water running (in minutes)?"
+            pass
+        elif usage == "Hand Washing Dishes":
             self.ids.enterUsageLabel.text = "How long was the water running (in minutes)?"
             pass
         elif usage == "Toilet":
@@ -334,6 +333,10 @@ class AddWaterUsagePopup(Popup):
                 usage_type = "Kitchen/Consumption"
                 vol = input * 0.06
                 pass
+            elif usage == "Hand Washing Dishes":
+                usage_type = "Kitchen/Consumption"
+                vol = (input) * store["waterConfiguration"]["faucetRate"]
+                pass
             elif usage == "Shower/Bath":
                 usage_type = "Bathroom"
                 vol = input * store["waterConfiguration"]["showerRate"]
@@ -372,6 +375,11 @@ class AddWaterUsagePopup(Popup):
                 pass
 
             current_date = datetime.now().strftime("%m/%d/%Y")
+            if current_date not in store["dailyBreakdown"].keys():
+                # This is how you store data in the dictionary
+                d1 = store["dailyBreakdown"]
+                d1.update(**{current_date: {}})
+                store.put("dailyBreakdown", **d1)
             d1 = store["dailyBreakdown"]
             d2 = d1[current_date]
             if usage_type in d2.keys():
@@ -387,14 +395,32 @@ class AddWaterUsagePopup(Popup):
         else:
             pass
         pass
+class DeleteWaterUsagePopup(Popup):
+    ID = 0
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        return
+    @staticmethod
+    def pass_data(id):
+        DeleteWaterUsagePopup.ID = id
+        return
+    def delete(self):
+        HomePage().delete_water_usage(self.ID)
+    pass
+class ResetWaterUsagePopup(Popup):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        return
+    def delete_all(self):
+        store["dailyBreakdown"] = {}
+
 # Classes for different pages in the app + WindowManager
 class GetStartedPage(Screen):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
     def on_pre_enter(self, *args):
-        print("Pre enter Get Started Page")
-
-
+        #print("Pre enter Get Started Page")
+        return
 class HomePage(Screen):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -409,46 +435,79 @@ class HomePage(Screen):
 
         self.ids.greetingText.text = str(text)
         current_date = datetime.now().strftime("%m/%d/%Y")
+        if current_date not in store["dailyBreakdown"].keys():
+            # This is how you store data in the dictionary
+            d1 = store["dailyBreakdown"]
+            d1.update(**{current_date: {}})
+            store.put("dailyBreakdown", **d1)
         self.ids.totalWaterUsage.text = str(round(sum(store["dailyBreakdown"][current_date].values()), 1)) + ' gal.'
-
     def on_pre_enter(self, *args):
-        print("Pre enter home page")
+        #print("Pre enter home page")
         update_statistics_image()
         self.update()
-
     def update(self):
         current_date = datetime.now().strftime("%m/%d/%Y")
+        if current_date not in store["dailyBreakdown"].keys():
+            # This is how you store data in the dictionary
+            d1 = store["dailyBreakdown"]
+            d1.update(**{current_date: {}})
+            store.put("dailyBreakdown", **d1)
         self.ids.totalWaterUsage.text = str(round(sum(store["dailyBreakdown"][current_date].values()), 1)) + ' gal.'
         today_usage = store["dailyBreakdown"][current_date]
-
         while True:
             try:
                 self.ids.breakdownLabels.remove_widget(self.ids.breakdownLabels.children[0])
             except:
                 break
-
-        for usage, vol in today_usage.items():
-            if usage == "Kitchen/Consumption":
-                usage = "Kitchen/\nConsumption"
-            label = BreakDownLabel(u_type=usage, u_volume=vol)
-            self.ids.breakdownLabels.add_widget(label)
+        for usage_type, vol in today_usage.items():
+            if usage_type == "Kitchen/Consumption":
+                usage_type = "Kitchen/\nConsumption"
+            if vol > 0:
+                label = BreakDownLabel(u_type=usage_type, u_volume=str(round(vol, 1)))
+                label.id = str(len(self.ids.breakdownLabels.children))
+                print("Added Widget " + usage_type.replace("\n", " ") + " Id: " + label.id)
+                self.ids.breakdownLabels.add_widget(label)
             pass
-
-        print(today_usage)
-
+    def delete_water_usage(self, ID):
+        self.update()
+        for label in self.ids.breakdownLabels.children:
+            print(label.u_type, label.id)
+        print("Deleting Element ", ID)
+        usage_type = ""
+        for label in self.ids.breakdownLabels.children:
+            if label.id == str(ID):
+                usage_type = label.u_type
+                break
+        print(usage_type)
+        if usage_type == "Kitchen/\nConsumption":
+            usage_type = "Kitchen/Consumption"
+        current_date = datetime.now().strftime("%m/%d/%Y")
+        if current_date not in store["dailyBreakdown"].keys():
+            # This is how you store data in the dictionary
+            d1 = store["dailyBreakdown"]
+            d1.update(**{current_date: {}})
+            store.put("dailyBreakdown", **d1)
+        d1 = store["dailyBreakdown"]
+        d2 = d1[current_date]
+        d2.update(**{usage_type: 0})
+        d1.update(**{current_date: d2})
+        store.put("dailyBreakdown", **d1)
+        for label in self.ids.breakdownLabels.children:
+            if label.id == ID:
+                self.ids.breakdownLabels.remove_widget(label)
+                break
+        self.update()
+        HomePage()
+        print(self.parent)
+        return
     @staticmethod
     def add_usage_click():
         AddWaterUsagePopup().open()
-
     pass
-
-
 class InfoPage(Screen):
     def donate(self):
         webbrowser.open("https://givebutter.com/powerofcleanwater")
     pass
-
-
 class StatsPage(Screen):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -468,6 +527,12 @@ class StatsPage(Screen):
         outdoorUse = []
         bathroom = []
         other = []
+        current_date = datetime.now().strftime("%m/%d/%Y")
+        if current_date not in store["dailyBreakdown"].keys():
+            # This is how you store data in the dictionary
+            d1 = store["dailyBreakdown"]
+            d1.update(**{current_date: {}})
+            store.put("dailyBreakdown", **d1)
         current_date = datetime.now()
         idx = (current_date.weekday() + 1) % 7
 
@@ -502,16 +567,19 @@ class StatsPage(Screen):
             sun = sun + timedelta(days=1)
 
         sum_water_week = [kitchenConsumption[i]+appliances[i]+outdoorUse[i]+bathroom[i]+other[i] for i in range(7)]
-        avg_water_usage = round(sum(sum_water_week)/7, 1)
-        max_water_usage = max(sum_water_week)
-        min_water_usage = min(sum_water_week)
+        sum_water_week = [sum_water_week[i] for i in range(7) if sum_water_week[i]>0]
+        if len(sum_water_week) == 0:
+            sum_water_week = [0]
+        avg_water_usage = round(sum(sum_water_week)/len(sum_water_week), 1)
+        max_water_usage = round(max(sum_water_week), 1)
+        min_water_usage = round(min(sum_water_week), 1)
         day_max = days[sum_water_week.index(max_water_usage)]
         day_min = days[sum_water_week.index(min_water_usage)]
         self.ids.avg.text = "Your average water usage this week was " + str(avg_water_usage) + " gal"
         self.ids.max.text = "Your highest usage was " + str(max_water_usage) + " gal on " + day_max
         self.ids.min.text = "Your lowest usage was " + str(min_water_usage) + " gal on " + day_min
-
-
+    def reset_all(self):
+        ResetWaterUsagePopup().open()
 class TimerPage(Screen):
     timerOn = False
     total_time = 0
@@ -591,7 +659,9 @@ class TimerPage(Screen):
         if self.waterUsageType == "" or self.waterUsageType == "Select Usage":
             SelectUsageAlert().open()
             return
-        if self.timerOn or self.total_time != 0:
+        if self.timerOn or round(self.total_time, 1) != 0:
+            print(self.timerOn)
+            print(self.total_time)
             self.timerOn = False
             self.ids.timerToggleButton.text = str("Start Water Timer")
             self.ids.pauseToggleButton.color = (0.5, 0.5, 0.5, 0.5)
@@ -608,8 +678,6 @@ class TimerPage(Screen):
             self.ids.restartToggleButton.color = (0, 0, 0, 1)
 
     pass
-
-
 class SettingsPage(Screen):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -622,34 +690,32 @@ class SettingsPage(Screen):
         self.add_widget(s)
         return
     pass
-
 class BlankPage(Screen):
     pass
-
 class WindowManager(ScreenManager):
     pass
-
 
 # Other classes
 class ImageButton(ButtonBehavior, Image):
     pass
-
-
 class CustomSpinner(Spinner):
     pass
-
 class BreakDownLabel(BoxLayout):
-    pass
+    def delete_water_usage(self, id):
+        print("Attempting to delete element: ", int(id))
+        DeleteWaterUsagePopup().pass_data(int(id))
+        DeleteWaterUsagePopup().open()
 
+    pass
 class WaterTrackApp(App):
     def build(self):
         global user_data_dir_path, store, base_json_str
 
         self.sm = ScreenManager()
         user_data_dir_path = getattr(self, "user_data_dir")
-        print(user_data_dir_path)
+        #print(user_data_dir_path)
         store = JsonStore(os.path.join(user_data_dir_path, "storage.json"))
-
+        #print(user_data_dir_path)
         try:
             if os.stat(os.path.join(user_data_dir_path, "storage.json")).st_size == 0:
                 with open(os.path.join(user_data_dir_path, "storage.json"), "w") as f:
@@ -679,7 +745,7 @@ class WaterTrackApp(App):
         self.icon = r"\img\PowerOfWaterIcon.png"
         return self.sm
 
-
+# App Startup
 if __name__ == '__main__':
     Logger.info("Started the app!!")
     print(kivy.core.window.Window.dpi)

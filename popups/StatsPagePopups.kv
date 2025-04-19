@@ -1,0 +1,26 @@
+<ResetWaterUsagePopup>:
+    size_hint: 0.75, 0.25
+    background: "img/1x1.png"
+    title_color: (0,0,0,1)
+    title: "Are you sure?"
+    title_size: "18sp"
+    BoxLayout:
+        spacing: 35
+        size_hint: 0.85, None
+        pos_hint: {"center_x" : 0.5}
+        height: "50sp"
+        SmoothButton:
+            border_radius: [10]
+            size_hint: 1, 1
+            bg_color: (0.94,0.94,0.94,1)
+            color: (0,0,0,1)
+            text: "Back"
+            on_release: root.dismiss()
+        SmoothButton:
+            border_radius: [10]
+            size_hint: 1, 1
+            bg_color: (0.94,0.94,0.94,1)
+            color: (0,0,0,1)
+            text: "Reset All"
+            halign: "center"
+            on_release: root.delete_all(); app.root.current = "BlankPage"; app.root.current = "StatsPage"; root.dismiss();
