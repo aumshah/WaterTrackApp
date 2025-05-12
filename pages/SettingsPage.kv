@@ -1,20 +1,123 @@
 <SettingsPage>:
     name : "SettingsPage"
-    ScrollView:
-        WhiteBoxLayout:
-            spacing: "15dp"
-            Label:
-                text: "Settings"
-                text_size : self.width, None
-                size_hint: 1, None
-                height: self.texture_size[1]
-                halign: "left"
-                valign: "top"
-                font_size: "20dp"
-                bold: True
-                color: 0,0,0,1
-            Label:
-                text: "Units"
-                color: 0,0,0,1
-            BottomBar:
-                ctrl5:1
+    BoxLayout:
+        orientation: "vertical"
+        padding: sp(0),sp(0),sp(0),sp(10)
+        canvas.before:
+            Color:
+                rgba: 1, 1, 1, 1
+            Rectangle:
+                pos: self.pos
+                size: self.size
+        ScrollView:
+            size_hint_y: 100
+            WhiteBoxLayout:
+                height: self.minimum_height
+                size_hint_y: None
+                spacing: "15dp"
+                orientation: "vertical"
+                Label:
+                    text: "Settings"
+                    text_size : self.width, None
+                    size_hint: 1, None
+                    height: self.texture_size[1]
+                    halign: "left"
+                    valign: "top"
+                    font_size: "30sp"
+                    bold: True
+                    color: 0,0,0,1
+                BoxLayout:
+                    id: settings
+                    height: self.minimum_height
+                    padding: sp(15),sp(15),sp(15),sp(15)
+                    size_hint : 1, None
+                    orientation: "vertical"
+                    spacing: "10dp"
+                    canvas.before:
+                        Color:
+                            rgba: 244/255, 251/255, 1, 1
+                        RoundedRectangle:
+                            pos: self.pos
+                            size: self.size
+                            radius: [(25,25),(25,25),(25,25),(25,25)]
+                    SettingsElement:
+                        id: showerRate
+                        idStr: "showerRate"
+                        setting: "Shower Rate"
+                        description: "The gallons per minute of your shower"
+                        value: "c"
+                    SettingsElement:
+                        id: faucetRate
+                        idStr: "faucetRate"
+                        setting: "Faucet Rate"
+                        description: "The gallons per minute of your faucet"
+                        value: "c"
+                    SettingsElement:
+                        id: hoseRate
+                        idStr: "hoseRate"
+                        setting: "Hose Rate"
+                        description: "The gallons per minute of your hose"
+                        value: "c"
+                    SettingsElement:
+                        id: sprinklerRate
+                        idStr: "sprinklerRate"
+                        setting: "Sprinkler Rate"
+                        description: "The gallons per minute of your sprinkler"
+                        value: "c"
+                    SettingsElement:
+                        id: tubRate
+                        idStr: "tubRate"
+                        setting: "Tub Rate"
+                        description: "The gallons per minute of your tub"
+                        value: "c"
+                    SettingsElement:
+                        id: toiletRate
+                        idStr: "toiletRate"
+                        setting: "Toilet Rate"
+                        description: "The number of gallons in one flush"
+                        value: "c"
+                    SettingsElement:
+                        id: washingMachineLight
+                        idStr: "washingMachineLight"
+                        setting: "Washing Machine (Light)"
+                        description: "The gallons used for a light washing machine load"
+                        value: "c"
+                    SettingsElement:
+                        id: washingMachineHeavy
+                        idStr: "washingMachineHeavy"
+                        setting: "Washing Machine (Heavy)"
+                        description: "The gallons used for a heavy washing machine load"
+                        value: "c"
+                    SettingsElement:
+                        id: dishwasherRate
+                        idStr: "dishwasherRate"
+                        setting: "Dishwasher Water Usage"
+                        description: "The gallons used in a dishwasher cycle"
+                        value: "c"
+                SmoothButton:
+                    bg_color: 225/255, 248/255, 1, 1
+                    pos_hint : {"center_x": 0.5}
+                    size_hint: 0.8, None
+                    text: "Save Settings"
+                    font_size: "20sp"
+                    height: "70sp"
+                    color: 0,0,0,1
+                    bold: True
+                    on_release: root.save_settings()
+                SmoothButton:
+                    bg_color: 225/255, 248/255, 1, 1
+                    pos_hint : {"center_x": 0.5}
+                    size_hint: 0.8, None
+                    text: "Reset Settings"
+                    font_size: "20sp"
+                    height: "70sp"
+                    color: 0,0,0,1
+                    bold: True
+                    on_release: root.reset_settings()
+                Label:
+                    font_size: "14sp"
+                    text: "\n\n"
+                    size_hint_y: None
+                    height: self.texture_size[1]
+        BottomBar:
+            ctrl5: 1

@@ -1,3 +1,71 @@
+<SettingsElement@BoxLayout>:
+    setting: ""
+    description: ""
+    value: ""
+    padding: "15dp"
+    spacing: "10dp"
+    size_hint: 1, None
+    color: 0,0,0,1
+    background_color: (0,0,0,0)
+    bg_color: 225/255, 248/255, 1, 1
+    background_normal: ''
+    back_color:  self.bg_color
+    border_radius: [25]
+    height: self.minimum_height
+    canvas.before:
+        Color:
+            rgba: self.bg_color
+        RoundedRectangle:
+            size: self.size
+            pos: self.pos
+            radius: [(25),(25),(25),(25)]
+    BoxLayout:
+        orientation: "vertical"
+        height: self.minimum_height
+        size_hint: 1, None
+        pos_hint: {'center_y': 0.5}
+        Label:
+        Label:
+            text_size : self.width, None
+            bold: True
+            size_hint: 1, None
+            height: self.texture_size[1]
+            text: root.setting
+            color: 0,0,0,1
+        Label:
+            text_size : self.width, None
+            size_hint: 1, None
+            height: self.texture_size[1]
+            text: root.description
+            color: 0,0,0,0.5
+        Label:
+    TextInput:
+        input_filter : 'float'
+        height: self.minimum_height
+        halign: "center"
+        valign: "center"
+        id: root.setting
+        text: root.value
+        on_text: root.value = self.text
+        #height: "50sp"
+        size_hint_x : 0.2
+        size_hint_y: None
+        pos_hint: {'center_y': 0.5}
+        background_color: 0,0,0,0
+        background_normal: "img/1x1.png"
+        background_active: "img/1x1.png"
+        multiline: False
+        cursor_color: 0,0,0,1
+        canvas.before:
+            Color:
+                rgba: (0.5,0.5,0.5,1)
+            Line:
+                width: 2
+                rounded_rectangle: self.x, self.y, self.width, self.height, 25
+            Color:
+                rgba: 0,0,0,1
+
+
 <BreakDownLabel>:
     u_type: ""
     u_volume: 0
@@ -129,8 +197,17 @@
             name: "Info"
             source: "img/PowerOfWaterIcon.png"
             on_release:
+                app.close_settings()
                 app.root.current = "InfoPage"
                 #root.manager.transition.direction = "left"
+            canvas.before:
+                Color:
+                    rgba: 0, 0, 0, 0.1*self.parent.parent.ctrl1
+                BoxShadow:
+                    pos: self.pos
+                    size: self.size
+                    spread_radius: 0, 15
+                    border_radius: 45, 45, 45, 45
 
         ImageButton:
             size_hint: 1, None
@@ -138,6 +215,7 @@
             name: "Stats"
             source: "img/StatsIcon.png"
             on_release:
+                app.close_settings()
                 app.root.current = "StatsPage"
                 #root.manager.transition.direction = "left"
             canvas.before:
@@ -148,12 +226,14 @@
                     size: self.size
                     spread_radius: 0, 15
                     border_radius: 45, 45, 45, 45
+
         ImageButton:
             size_hint: 1, None
             height: "45dp"
             name: "Home"
             source: "img/HomeIcon.png"
             on_release:
+                app.close_settings()
                 app.root.current = "HomePage"
                 #root.manager.transition.direction = "left"
             canvas.before:
@@ -170,6 +250,7 @@
             name: "Timer"
             source: "img/TimerIcon.png"
             on_release:
+                app.close_settings()
                 app.root.current = "TimerPage"
                 #root.manager.transition.direction = "left"
             canvas.before:
@@ -180,22 +261,23 @@
                     size: self.size
                     spread_radius: 0, 15
                     border_radius: 45, 45, 45, 45
-        #ImageButton:
-        #    size_hint: 1, None
-        #    height: "30dp"
-        #    name: "Settings"
-        #    source: "img/SettingsIcon.png"
-        #    on_release:
-        #        app.root.current = "SettingsPage"
-        #        #root.manager.transition.direction = "left"
-        #    canvas.before:
-        #        Color:
-        #            rgba: 0, 0, 0, 0.1*self.parent.parent.ctrl5
-        #        BoxShadow:
-        #            pos: self.pos
-        #            size: self.size
-        #            spread_radius: 0, 15
-        #            border_radius: 45, 45, 45, 45
+        ImageButton:
+            size_hint: 1, None
+            height: "45dp"
+            name: "Settings"
+            source: "img/SettingsIcon.png"
+            on_release:
+                #app.open_settings()
+                app.root.current = "SettingsPage"
+                #root.manager.transition.direction = "left"
+            canvas.before:
+                Color:
+                    rgba: 0, 0, 0, 0.1*self.parent.parent.ctrl5
+                BoxShadow:
+                    pos: self.pos
+                    size: self.size
+                    spread_radius: 0, 15
+                    border_radius: 45, 45, 45, 45
 <WhiteBoxLayout@BoxLayout>:
     padding: dp(25),dp(60),dp(25),dp(10)
     orientation: "vertical"

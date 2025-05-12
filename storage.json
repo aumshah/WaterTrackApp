@@ -1,1 +1,1 @@
-{"userData": {"units": "gallons"}, "dailyBreakdown": {}, "waterConfiguration": {"showerRate": 2, "faucetRate": 1.5, "hoseRate": 5, "sprinklerRate": 4, "tubRate": 2.5}}
+{"userData": {"units": "gallons"}, "dailyBreakdown": {}, "waterConfiguration": {"showerRate": 2, "faucetRate": 1.5, "hoseRate": 5, "sprinklerRate": 4, "tubRate": 2.5, "toiletRate": 2, "washingMachineLight": 15, "washingMachineHeavy": 25, "dishwasherRate": 4}}

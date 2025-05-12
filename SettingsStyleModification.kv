@@ -1,0 +1,48 @@
+<-SettingsWithNoMenu>:
+    orientation: 'vertical'
+    canvas.before:
+        Color:
+            rgba: 1, 1, 1, 1
+        Rectangle:
+            pos: self.pos
+            size: self.size
+    BottomBar:
+        ctrl5: 1
+<-SettingItem>:
+    size_hint: .25, None
+    height: labellayout.texture_size[1] + dp(10)
+    content: content
+    canvas:
+        Color:
+            rgba: 47 / 255., 167 / 255., 212 / 255., self.selected_alpha
+        Rectangle:
+            pos: self.x, self.y + 1
+            size: self.size
+        Color:
+            rgb: .2, .2, .2
+        Rectangle:
+            pos: self.x, self.y - 2
+            size: self.width, 1
+
+    BoxLayout:
+        pos: root.pos
+
+        Label:
+            size_hint_x: .66
+            id: labellayout
+            markup: True
+            text: u'{0}[size=13sp][color=999999]\n{1}[/color][/size]'.format(root.title or '', root.desc or '')
+            font_size: '15sp'
+            color: [0, 0 , 0 , 1]
+            text_size: self.width - 32, None
+
+        BoxLayout:
+            id: content
+            size_hint_x: .33
+<-SettingTitle>:
+    text: "asdfasdf"
+    text_size: self.size
+    halign: "center"
+    valign: "center"
+    #font_size: "35dp"
+    color: 1,0,0,1

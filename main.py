@@ -1,9 +1,14 @@
 import webbrowser
+
 import kivy.core.window
 from kivy.config import Config
 from kivy.uix.boxlayout import BoxLayout
 from kivy.app import App
 from kivy.lang import Builder
+
+Builder.load_file("pages/CustomClasses.kv")
+Builder.load_file("SettingsStyleModification.kv")
+
 from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.storage.jsonstore import JsonStore
 from kivy.uix.behaviors import ButtonBehavior
@@ -13,7 +18,7 @@ from kivy.clock import Clock
 from kivy import Logger
 from datetime import datetime, timedelta
 from kivy.uix.spinner import Spinner
-from kivy.uix.settings import Settings
+from kivy.uix.settings import SettingsWithNoMenu
 from kivy.config import ConfigParser
 import time
 import os
@@ -21,6 +26,7 @@ import os
 import numpy
 import matplotlib.pyplot as plt
 import matplotlib
+import json
 
 matplotlib.use('Agg')
 plt.set_loglevel("warning")
@@ -29,9 +35,8 @@ print("Welcome to Water Track!")
 
 store = JsonStore("startingStorage.json")
 user_data_dir_path = ""
-base_json_str = '{"userData": {"units": "gallons"}, "dailyBreakdown": {}, "waterConfiguration": {"showerRate": 2, "faucetRate": 1.5, "hoseRate": 5, "sprinklerRate": 4, "tubRate": 2.5}}'
+base_json_str = '{"userData": {"units": "gallons"}, "dailyBreakdown": {}, "waterConfiguration": {"showerRate": 2, "faucetRate": 1.5, "hoseRate": 5, "sprinklerRate": 4, "tubRate": 2.5, "toiletRate": 2, "washingMachineLight": 15, "washingMachineHeavy": 25, "dishwasherRate": 4}, "baseWaterConfiguration": {"showerRate": 2, "faucetRate": 1.5, "hoseRate": 5, "sprinklerRate": 4, "tubRate": 2.5, "toiletRate": 2, "washingMachineLight": 15, "washingMachineHeavy": 25, "dishwasherRate": 4}}'
 
-Builder.load_file("pages/CustomClasses.kv")
 Builder.load_file('pages/GetStartedPage.kv')
 Builder.load_file('pages/HomePage.kv')
 Builder.load_file("pages/InfoPage.kv")
@@ -42,7 +47,7 @@ Builder.load_file("pages/SettingsPage.kv")
 Builder.load_file("pages/BlankPage.kv")
 Builder.load_file("popups/WaterTimerPopups.kv")
 Builder.load_file("popups/HomePagePopups.kv")
-
+Builder.load_file("popups/SettingsPagePopups.kv")
 
 # Statistic Graph Update Function
 def update_statistics_image():
@@ -92,11 +97,11 @@ def update_statistics_image():
             other.append(0)
         sun = sun + timedelta(days=1)
     #print(values_xaxis)
-    #print(kitchenConsumption)
-    #print(appliances)
-    #print(outdoorUse)
-    #print(bathroom)
-    #print(other)
+    print(kitchenConsumption)
+    print(appliances)
+    print(outdoorUse)
+    print(bathroom)
+    print(other)
 
     plt.clf()
     plt.close()
@@ -113,7 +118,7 @@ def update_statistics_image():
     plt.bar(values_xaxis, outdoorUse, bottom=[kitchenConsumption[i] + appliances[i] for i in range(7)],color='royalblue', width=0.75);#print(114)
     plt.bar(values_xaxis, bathroom, bottom=[kitchenConsumption[i] + appliances[i] + outdoorUse[i] for i in range(7)], color='mediumblue', width=0.75); #print(115)
     plt.bar(values_xaxis, other, bottom=[kitchenConsumption[i] + appliances[i] + outdoorUse[i] + bathroom[i] for i in range(7)], color='navy', width=0.75); #print(116)
-    plt.bar(values_xaxis, [(kitchenConsumption[i] + appliances[i] + outdoorUse[i] + bathroom[i] + other[i]) * 0.05 for i in range(7)], bottom=[kitchenConsumption[i] + appliances[i] + outdoorUse[i] + bathroom[i] for i in range(7)], color='white', width=0.75); #print(117)
+    plt.bar(values_xaxis, [(kitchenConsumption[i] + appliances[i] + outdoorUse[i] + bathroom[i] + other[i]) * 0.05 for i in range(7)], bottom=[kitchenConsumption[i] + appliances[i] + outdoorUse[i] + bathroom[i] + other[i] for i in range(7)], color='white', width=0.75); #print(117)
     #print("Plot made!"); #print(118)
 
     plt.savefig(os.path.join(user_data_dir_path, "StatsImage.png")); #print(128)
@@ -182,7 +187,7 @@ class WaterTimerPopup(Popup):
         #    WaterTimerPopup.volume = round(time * store["waterConfiguration"]["tubRate"],1)
 
         self.ids.waterUsageInfoVolume.text = str("This is equal to " + str(WaterTimerPopup.volume) +
-                                                 " " + store["userData"]["units"] +
+                                                 " " + "gallons" +
                                                  " of water.\n")
 
     def add(self):
@@ -221,7 +226,6 @@ class AddWaterUsagePopup(Popup):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         return
-
     def usage_selected(self, usage):
         self.ids.exactWaterUsageSpinner.opacity = 1
         if usage == "Appliances":
@@ -236,8 +240,8 @@ class AddWaterUsagePopup(Popup):
             self.ids.exactWaterUsageSpinner.values = ["Hose", "Sprinkler", "Car Wash", "Dog Bath"]
         elif usage == "Other":
             self.ids.exactWaterUsageSpinner.values = ["Other"]
+            self.ids.exactWaterUsageSpinner.text = "Other"
         return
-
     def specific_usage_selected(self, usage):
         self.ids.enterUsageLabel.opacity = 1
         self.ids.enterUsageInput.opacity = 1
@@ -294,7 +298,6 @@ class AddWaterUsagePopup(Popup):
             pass
 
         return
-
     def add(self):
         if self.ids.enterUsageInput.text == "":
             SelectUsageAlert().open()
@@ -304,14 +307,14 @@ class AddWaterUsagePopup(Popup):
             usage = self.ids.exactWaterUsageSpinner.text
             if usage == "Dishwasher":
                 usage_type = "Kitchen/Consumption"
-                vol = 4
+                vol = store["waterConfiguration"]["dishwasherRate"]
                 pass
             elif usage == "Washing Machine":
                 usage_type = "Appliances"
                 if input > 15:
-                    vol = 25
+                    vol = store["waterConfiguration"]["washingMachineHeavy"]
                 else:
-                    vol = 15
+                    vol = store["waterConfiguration"]["washingMachineLight"]
                 pass
             elif usage == "Drinking Water":
                 usage_type = "Kitchen/Consumption"
@@ -343,7 +346,7 @@ class AddWaterUsagePopup(Popup):
                 pass
             elif usage == "Toilet":
                 usage_type = "Bathroom"
-                vol = input * 2
+                vol = input * store["waterConfiguration"]["toiletRate"]
                 pass
             elif usage == "Washing Face":
                 usage_type = "Bathroom"
@@ -413,6 +416,11 @@ class ResetWaterUsagePopup(Popup):
         return
     def delete_all(self):
         store["dailyBreakdown"] = {}
+class SettingsSaved(Popup):
+    pass
+class SettingsReset(Popup):
+    pass
+
 
 # Classes for different pages in the app + WindowManager
 class GetStartedPage(Screen):
@@ -681,13 +689,33 @@ class TimerPage(Screen):
 class SettingsPage(Screen):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        config = ConfigParser()
-        config.read('config.ini')
-
-        s = Settings()
-        s.add_json_panel("Settings", config,"settingsFormat.json")
-
-        self.add_widget(s)
+        return
+    def on_enter(self, *args):
+        print(self.ids.settings.children)
+        print(store["waterConfiguration"])
+        for element in self.ids.settings.children:
+            element.value = str(round(store["waterConfiguration"][element.idStr],1))
+    def on_leave(self, *args):
+        for element in self.ids.settings.children:
+            print(element.value)
+            element.value = str(round(store["waterConfiguration"][element.idStr],1))
+    def save_settings(self):
+        for element in self.ids.settings.children:
+            d1 = store["waterConfiguration"]
+            d1.update(**{element.idStr: round(float(element.value), 1)})
+            store.put("waterConfiguration", **d1)
+        for element in self.ids.settings.children:
+            element.value = str(round(store["waterConfiguration"][element.idStr],1))
+        SettingsSaved().open()
+        return
+    def reset_settings(self):
+        for element in self.ids.settings.children:
+            d1 = store["waterConfiguration"]
+            d1.update(**{element.idStr: round(store["baseWaterConfiguration"][element.idStr], 1)})
+            store.put("waterConfiguration", **d1)
+        for element in self.ids.settings.children:
+            element.value = str(round(store["waterConfiguration"][element.idStr],1))
+        SettingsReset().open()
         return
     pass
 class BlankPage(Screen):
@@ -707,10 +735,11 @@ class BreakDownLabel(BoxLayout):
         DeleteWaterUsagePopup().open()
 
     pass
+
 class WaterTrackApp(App):
     def build(self):
         global user_data_dir_path, store, base_json_str
-
+        self.settings_cls = SettingsWithNoMenu
         self.sm = ScreenManager()
         user_data_dir_path = getattr(self, "user_data_dir")
         #print(user_data_dir_path)
@@ -735,6 +764,11 @@ class WaterTrackApp(App):
             d1 = store["dailyBreakdown"]
             d1.update(**{current_date: {}})
             store.put("dailyBreakdown", **d1)
+        if "dishwasherRate" not in store["waterConfiguration"].keys():
+            base_water = {"showerRate": 2.0, "faucetRate": 1.5, "hoseRate": 5.0, "sprinklerRate": 4.0, "tubRate": 2.5, "toiletRate": 2.0, "washingMachineLight": 15.0, "washingMachineHeavy": 25.0, "dishwasherRate": 4.0}
+            store.put("waterConfiguration", **base_water)
+        base_water = {"showerRate": 2.0, "faucetRate": 1.5, "hoseRate": 5.0, "sprinklerRate": 4.0, "tubRate": 2.5, "toiletRate": 2.0, "washingMachineLight": 15.0, "washingMachineHeavy": 25.0, "dishwasherRate": 4.0}
+        store.put("baseWaterConfiguration", **base_water)
 
         self.sm.add_widget(HomePage(name="HomePage"))
         self.sm.add_widget(InfoPage(name="InfoPage"))
@@ -744,6 +778,81 @@ class WaterTrackApp(App):
         self.sm.add_widget(BlankPage(name="BlankPage"))
         self.icon = r"\img\PowerOfWaterIcon.png"
         return self.sm
+    """def build_config(self, config):
+        config.setdefaults('WaterTracker Settings', {"showerRate": 2,
+                                                     "faucetRate": 1.5,
+                                                     "hoseRate": 5,
+                                                     "sprinklerRate": 4,
+                                                     "tubRate": 2.5,
+                                                     "toiletRate": 2,
+                                                     "washingMachineLight": 15,
+                                                     "washingMachineHeavy": 25,
+                                                     "dishwasherRate": 4})
+    def build_settings(self, settings):
+        settings_json = json.dumps([
+            {'type': 'title',
+             'title': 'WaterTracker Settings'},
+
+            {'type' : 'numeric',
+             'title': "Shower Rate",
+             'desc': "The gallons per minute of your shower",
+             'section': "WaterTracker Settings",
+             'key': "showerRate"},
+
+            {'type': 'numeric',
+             'title': "Faucet Rate",
+             'desc': "The gallons per minute of your faucet",
+             'section': "WaterTracker Settings",
+             'key': "faucetRate"},
+
+            {'type': 'numeric',
+             'title': "Hose Rate",
+             'desc': "The gallons per minute of your hose",
+             'section': "WaterTracker Settings",
+             'key': "hoseRate"},
+
+            {'type': 'numeric',
+             'title': "Sprinkler Rate",
+             'desc': "The gallons per minute of your sprinkler",
+             'section': "WaterTracker Settings",
+             'key': "sprinklerRate"},
+
+            {'type': 'numeric',
+             'title': "Tub Rate",
+             'desc': "The gallons per minute of your tub",
+             'section': "WaterTracker Settings",
+             'key': "tubRate"},
+
+            {'type': 'numeric',
+             'title': "Toilet Rate",
+             'desc': "The number of gallons in one flush",
+             'section': "WaterTracker Settings",
+             'key': "toiletRate"},
+
+            {'type': 'numeric',
+             'title': "Washing Machine (Light)",
+             'desc': "The gallons used for a light washing machine load",
+             'section': "WaterTracker Settings",
+             'key': "washingMachineLight"},
+
+            {'type': 'numeric',
+             'title': "Washing Machine (Heavy)",
+             'desc': "The gallons used for a heavy washing machine load",
+             'section': "WaterTracker Settings",
+             'key': "washingMachineHeavy"},
+
+            {'type': 'numeric',
+             'title': "Dishwasher Water Usage",
+             'desc': "The gallons used in a dishwasher cycle",
+             'section': "WaterTracker Settings",
+             'key': "dishwasherRate"}
+        ])
+        settings.add_json_panel('WaterTrack Settings', self.config, data=settings_json)
+        bottomBar = BottomBar(ctrl5=1)
+        SettingsWithNoMenu.add_widget(bottomBar)
+    def on_config_change(self, config, section, key, value):
+        d = store["waterConfiguration"]
+        d.update(**{key : value})"""
 
 # App Startup
 if __name__ == '__main__':
