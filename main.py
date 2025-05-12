@@ -1,14 +1,9 @@
 import webbrowser
-
 import kivy.core.window
 from kivy.config import Config
 from kivy.uix.boxlayout import BoxLayout
 from kivy.app import App
 from kivy.lang import Builder
-
-Builder.load_file("pages/CustomClasses.kv")
-Builder.load_file("SettingsStyleModification.kv")
-
 from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.storage.jsonstore import JsonStore
 from kivy.uix.behaviors import ButtonBehavior
@@ -22,7 +17,6 @@ from kivy.uix.settings import SettingsWithNoMenu
 from kivy.config import ConfigParser
 import time
 import os
-# venv: site-packages
 import numpy
 import matplotlib.pyplot as plt
 import matplotlib
@@ -37,6 +31,7 @@ store = JsonStore("startingStorage.json")
 user_data_dir_path = ""
 base_json_str = '{"userData": {"units": "gallons"}, "dailyBreakdown": {}, "waterConfiguration": {"showerRate": 2, "faucetRate": 1.5, "hoseRate": 5, "sprinklerRate": 4, "tubRate": 2.5, "toiletRate": 2, "washingMachineLight": 15, "washingMachineHeavy": 25, "dishwasherRate": 4}, "baseWaterConfiguration": {"showerRate": 2, "faucetRate": 1.5, "hoseRate": 5, "sprinklerRate": 4, "tubRate": 2.5, "toiletRate": 2, "washingMachineLight": 15, "washingMachineHeavy": 25, "dishwasherRate": 4}}'
 
+Builder.load_file("pages/CustomClasses.kv")
 Builder.load_file('pages/GetStartedPage.kv')
 Builder.load_file('pages/HomePage.kv')
 Builder.load_file("pages/InfoPage.kv")
@@ -735,7 +730,6 @@ class BreakDownLabel(BoxLayout):
         DeleteWaterUsagePopup().open()
 
     pass
-
 class WaterTrackApp(App):
     def build(self):
         global user_data_dir_path, store, base_json_str
