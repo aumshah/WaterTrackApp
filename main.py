@@ -15,8 +15,10 @@ from datetime import datetime, timedelta
 from kivy.uix.spinner import Spinner
 from kivy.uix.settings import SettingsWithNoMenu
 from kivy.config import ConfigParser
+import ctypes
 import time
 import os
+import platform
 import numpy
 import matplotlib.pyplot as plt
 import matplotlib
@@ -301,7 +303,7 @@ class AddWaterUsagePopup(Popup):
             vol = 0
             usage = self.ids.exactWaterUsageSpinner.text
             if usage == "Dishwasher":
-                usage_type = "Kitchen/Consumption"
+                usage_type = "Appliances"
                 vol = store["waterConfiguration"]["dishwasherRate"]
                 pass
             elif usage == "Washing Machine":
@@ -570,14 +572,16 @@ class StatsPage(Screen):
             sun = sun + timedelta(days=1)
 
         sum_water_week = [kitchenConsumption[i]+appliances[i]+outdoorUse[i]+bathroom[i]+other[i] for i in range(7)]
+        original_water_week = sum_water_week
         sum_water_week = [sum_water_week[i] for i in range(7) if sum_water_week[i]>0]
         if len(sum_water_week) == 0:
             sum_water_week = [0]
+        print(sum_water_week)
         avg_water_usage = round(sum(sum_water_week)/len(sum_water_week), 1)
         max_water_usage = round(max(sum_water_week), 1)
         min_water_usage = round(min(sum_water_week), 1)
-        day_max = days[sum_water_week.index(max_water_usage)]
-        day_min = days[sum_water_week.index(min_water_usage)]
+        day_max = days[original_water_week.index(max_water_usage)]
+        day_min = days[original_water_week.index(min_water_usage)]
         self.ids.avg.text = "Your average water usage this week was " + str(avg_water_usage) + " gal"
         self.ids.max.text = "Your highest usage was " + str(max_water_usage) + " gal on " + day_max
         self.ids.min.text = "Your lowest usage was " + str(min_water_usage) + " gal on " + day_min
@@ -851,5 +855,6 @@ class WaterTrackApp(App):
 # App Startup
 if __name__ == '__main__':
     Logger.info("Started the app!!")
+    Logger.info(platform.uname())
     print(kivy.core.window.Window.dpi)
     WaterTrackApp().run()
