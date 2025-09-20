@@ -14,11 +14,13 @@ from kivy import Logger
 from datetime import datetime, timedelta
 from kivy.uix.spinner import Spinner
 from kivy.uix.settings import SettingsWithNoMenu
+from pyobjus import autoclass
+from pyobjus.dylib_manager import load_framework, INCLUDE
 from kivy.config import ConfigParser
+from kivy.utils import platform
 import ctypes
 import time
 import os
-import platform
 import numpy
 import matplotlib.pyplot as plt
 import matplotlib
@@ -26,6 +28,7 @@ import json
 
 matplotlib.use('Agg')
 plt.set_loglevel("warning")
+load_framework(INCLUDE.GLKit)
 
 print("Welcome to Water Track!")
 
@@ -146,6 +149,23 @@ def update_statistics_image():
     plt.close(f); print(126)
     f.clf()
     """
+
+# URL Open Code
+def open_url_ios_pyobjus(url):
+    # Get UIApplication class and shared instance
+    UIApplication = autoclass("UIApplication")
+    app = UIApplication.sharedApplication()
+
+    # Get NSURL class and create an NSURL object
+    NSURL = autoclass("NSURL")
+    ns_url = NSURL.URLWithString_(url)
+
+    # Check if NSURL and UIApplication instances are valid
+    if ns_url and app:
+        # Use the modern openURL:options:completionHandler: method
+        options = {}  # Create an empty NSDictionary equivalent
+        app.openURL_options_completionHandler_(ns_url, options, None)
+
 
 # Popup classes
 class WaterTimerPopup(Popup):
@@ -511,7 +531,11 @@ class HomePage(Screen):
     pass
 class InfoPage(Screen):
     def donate(self):
-        webbrowser.open("https://givebutter.com/powerofcleanwater")
+        print(platform)
+        if platform == 'ios':
+            open_url_ios_pyobjus("https://givebutter.com/powerofcleanwater")
+        else:
+            webbrowser.open("https://givebutter.com/powerofcleanwater")
     pass
 class StatsPage(Screen):
     def __init__(self, **kwargs):
@@ -855,6 +879,5 @@ class WaterTrackApp(App):
 # App Startup
 if __name__ == '__main__':
     Logger.info("Started the app!!")
-    Logger.info(platform.uname())
     print(kivy.core.window.Window.dpi)
     WaterTrackApp().run()
